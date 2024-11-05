@@ -680,19 +680,7 @@ $Script:Runtime = Measure-Command -Expression {
             Write-Host 'Collecting: ' -NoNewline
             Write-Host 'Advisor Recommendations' -ForegroundColor Magenta
             Invoke-AdvisoryExtraction -SubId $SubId -ResourceGroup $RGroup
-
-            if ($SubId -notin $LoopedSub) {
-              Write-Host '----------------------------'
-              Write-Host 'Collecting: ' -NoNewline
-              Write-Host 'Service Retirements Notifications' -ForegroundColor Magenta
-              Invoke-RetirementExtraction $Subid
-
-              Write-Host '----------------------------'
-              Write-Host 'Collecting: ' -NoNewline
-              Write-Host 'Service Health Alerts' -ForegroundColor Magenta
-              Invoke-ServiceHealthExtraction $Subid
-              $LoopedSub += $SubId
-            }
+#arclares removed Invoke-RetirementExtraction and Invoke-ServiceHealthExtraction loop component
             Write-Host '----------------------------'
             Write-Host 'Running: ' -NoNewline
             Write-Host 'Queries' -ForegroundColor Magenta
