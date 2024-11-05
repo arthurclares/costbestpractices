@@ -93,10 +93,7 @@ A JSON file with the collected data.
 
 Param(
         [switch]$Debugging,
-        [switch]$SAP,
-        [switch]$AVD,
-        [switch]$AVS,
-        [switch]$HPC,
+#arclares removed specialized workloads
         [ValidatePattern('^(\/subscriptions\/)?[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$')]
         [String[]]$SubscriptionIds,
         [ValidatePattern('^\/subscriptions\/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\/resourceGroups\/[a-zA-Z0-9._-]+$')]
@@ -362,9 +359,7 @@ $Script:Runtime = Measure-Command -Expression {
     $Script:SupportedResTypes = @()
     $Script:AllResourceTypesOrdered = @()
     $Script:AllAdvisories = @()
-    $Script:AllRetirements = @()
-    $Script:AllServiceHealth = @()
-    $Script:results = @()
+      $Script:results = @()
     $Script:InScope = @()
     $Script:OutOfScope = @()
     $Script:PreInScopeResources = @()
@@ -405,10 +400,7 @@ $Script:Runtime = Measure-Command -Expression {
           }
         $Script:ScriptData = [pscustomobject]@{
             Version             = $Script:Version
-            SAP                 = if($SAP.IsPresent){$true}else{$false}
-            AVD                 = if($AVD.IsPresent){$true}else{$false}
-            AVS                 = if($AVS.IsPresent){$true}else{$false}
-            HPC                 = if($HPC.IsPresent){$true}else{$false}
+#arclares removed specialized workloads
             Debugging           = if($Debugging.IsPresent){$true}else{$false}
             ConfigFile          = if($ConfigFile){$true}else{$false}
             ConfigFileTenant    = if($ConfigFile){$TenantID}else{$false}
@@ -436,7 +428,8 @@ $Script:Runtime = Measure-Command -Expression {
       Write-Debug 'Setting local path'
       try {
         # Clone the GitHub repository to a temporary folder
-        $repoUrl = 'https://github.com/Azure/Azure-Proactive-Resiliency-Library-v2'
+        ## arclares changed to my repo
+        $repoUrl = 'https://github.com/arthurclares/costbestpractices'
 
         # Define script path as the default path to save files
         $workingFolderPath = $PSScriptRoot
@@ -624,24 +617,16 @@ $Script:Runtime = Measure-Command -Expression {
               $header = @{
                 'Authorization' = 'Bearer ' + $Token.Token
               }
-
-              try {
-                Write-Host '----------------------------'
-                Write-Host 'Collecting: ' -NoNewline
-                Write-Host 'Outages' -ForegroundColor Magenta
-                $url = ('https://' + $BaseURL + '/subscriptions/' + $Subid + '/providers/Microsoft.ResourceHealth/events?api-version=2022-10-01&queryStartTime=' + $Date)
-                $Outages = Invoke-RestMethod -Uri $url -Headers $header -Method GET
-                $Script:Outageslist += $Outages.value | Where-Object { $_.properties.impactStartTime -gt $DateOutages } | Sort-Object @{Expression = 'properties.eventlevel'; Descending = $false }, @{Expression = 'properties.status'; Descending = $false } | Select-Object -Property name, properties -First 15
-                $Script:RetiredOutages += $Outages.value | Sort-Object @{Expression = 'properties.eventlevel'; Descending = $false }, @{Expression = 'properties.status'; Descending = $false } | Select-Object -Property name, properties
-              } catch { $null }
-
+              #arclares removed Outageslist
+              #arclares Function to check support cases / tickets
               try {
                 Write-Host '----------------------------'
                 Write-Host 'Collecting: ' -NoNewline
                 Write-Host 'Support Tickets' -ForegroundColor Magenta
                 $supurl = ('https://' + $BaseURL + '/subscriptions/' + $Subid + '/providers/Microsoft.Support/supportTickets?api-version=2020-04-01')
                 $SupTickets = Invoke-RestMethod -Uri $supurl -Headers $header -Method GET
-                $Script:SupportTickets += $SupTickets.value | Where-Object { $_.properties.severity -ne 'Minimal' -and $_.properties.createdDate -gt $DateCore } | Select-Object -Property name, properties
+                #arclares filtered by Billing tickets only. Review if relevant or not. 
+                $Script:BillingSupportTickets += $SupTickets.value | Where-Object { $_.properties.severity -ne 'Minimal' -and $_.properties.createdDate -gt $DateCore -and $_.PROPERTIES.serviceDisplayName -eq 'Billing'} | Select-Object -Property name, properties
               } catch { $null }
             }
 
@@ -1020,38 +1005,7 @@ $Script:Runtime = Measure-Command -Expression {
         }
 
         # Checks if specialized workloads will be validated
-        if ($SAP.IsPresent) {
-          if ($Script:ShellPlatform -eq 'Win32NT') {
-            $aprlKqlFiles += Get-ChildItem -Path ($clonePath + '\azure-specialized-workloads\sap') -Filter '*.kql' -Recurse
-          } else {
-            $aprlKqlFiles += Get-ChildItem -Path ($clonePath + '/azure-specialized-workloads/sap') -Filter '*.kql' -Recurse
-          }
-        }
-
-        if ($AVD.IsPresent) {
-          if ($Script:ShellPlatform -eq 'Win32NT') {
-            $aprlKqlFiles += Get-ChildItem -Path ($clonePath + '\azure-specialized-workloads\avd') -Filter '*.kql' -Recurse
-          } else {
-            $aprlKqlFiles += Get-ChildItem -Path ($clonePath + '/azure-specialized-workloads/avd') -Filter '*.kql' -Recurse
-          }
-        }
-
-        if ($AVS.IsPresent) {
-          if ($Script:ShellPlatform -eq 'Win32NT') {
-            $aprlKqlFiles += Get-ChildItem -Path ($clonePath + '\azure-specialized-workloads\avs') -Filter '*.kql' -Recurse
-          } else {
-            $aprlKqlFiles += Get-ChildItem -Path ($clonePath + '/azure-specialized-workloads/avs') -Filter '*.kql' -Recurse
-          }
-        }
-
-        if ($HPC.IsPresent) {
-          if ($Script:ShellPlatform -eq 'Win32NT') {
-            $aprlKqlFiles += Get-ChildItem -Path ($clonePath + '\azure-specialized-workloads\hpc') -Filter '*.kql' -Recurse
-          } else {
-            $aprlKqlFiles += Get-ChildItem -Path ($clonePath + '/azure-specialized-workloads/hpc') -Filter '*.kql' -Recurse
-          }
-        }
-
+#arclares removed specialized workloads
         # Populates the QueryMap hashtable
         foreach ($aprlKqlFile in $aprlKqlFiles) {
           if ($Script:ShellPlatform -eq 'Win32NT') {
@@ -1386,7 +1340,7 @@ $Script:Runtime = Measure-Command -Expression {
   }
 
   function Resolve-ResourceType {
-    $TempTypes = $Script:ImpactedResources | Where-Object { $_.validationAction -eq 'IMPORTANT - Resource Type is not available in either APRL or Advisor - Validate Resources manually if Applicable, if not Delete this line' }
+    $TempTypes = $Script:ImpactedResources | Where-Object { $_.validationAction -eq 'IMPORTANT - Resource Type is not available in either cost library or Advisor - Validate Resources manually if Applicable, if not Delete this line' }
     $Script:AllResourceTypes = $Script:AllResourceTypes | Sort-Object -Property Count -Descending
     $Looper = $Script:AllResourceTypes | Sort-Object -Property Name -Unique
     foreach ($result in $Looper.Name) {
@@ -1396,7 +1350,7 @@ $Script:Runtime = Measure-Command -Expression {
         $tmp = [PSCustomObject]@{
           'Resource Type'               = [string]$ResultType
           'Number of Resources'         = [string]$ResourceTypeCount
-          'Available in APRL/ADVISOR?'  = 'No'
+          'Available in CostLibrary/ADVISOR?'  = 'No'
           'Assessment Owner'            = ''
           'Status'                      = ''
           'Notes'                       = ''
@@ -1406,7 +1360,7 @@ $Script:Runtime = Measure-Command -Expression {
         $tmp = [PSCustomObject]@{
           'Resource Type'               = [string]$ResultType
           'Number of Resources'         = [string]$ResourceTypeCount
-          'Available in APRL/ADVISOR?'  = 'Yes'
+          'Available in CostLibrary/ADVISOR?'  = 'Yes'
           'Assessment Owner'            = ''
           'Status'                      = ''
           'Notes'                       = ''
@@ -1419,10 +1373,47 @@ $Script:Runtime = Measure-Command -Expression {
   function Invoke-AdvisoryExtraction {
     Param($Subid,$ResourceGroup)
     if (![string]::IsNullOrEmpty($ResourceGroup)) {
-        $advquery = "advisorresources | where type == 'microsoft.advisor/recommendations' and tostring(properties.category) in ('HighAvailability') | where resourceGroup =~ '$ResourceGroup' | order by id"
+        #arclares - changed query to account for cost recommendations. Query has extra filters as recommended by the Advisor team to take supressions into consideration
+        $advquery = "advisorresources | where resourceGroup =~ '$ResourceGroup' | where type =~ 'microsoft.advisor/recommendations' | where properties.category == 'Cost' and properties.lastUpdated >= ago(1d) 
+        | extend AffectedResource=tostring(properties.resourceMetadata.resourceId), Category=tostring(properties.category), SubCategory=tostring(properties.impactedField), Impact=tostring(properties.impact),subscriptionId,Recommendation=tostring(properties.shortDescription.problem), id, stableId = name, recommendationTypeId = tostring(properties.recommendationTypeId), maxCpuP95 = properties.extendedProperties.MaxCpuP95,resourceGroup=strcat('/subscriptions/',subscriptionId,'/resourceGroups/',resourceGroup) 
+        | join kind = leftouter (advisorresources | where type=~'microsoft.advisor/suppressions' 
+        | extend tokens = split(id, '/') 
+        | extend stableId = iff(array_length(tokens) > 3, tokens[(array_length(tokens)-3)], '') 
+        | extend expirationTimeStamp = todatetime(iff(strcmp(tostring(properties.ttl), '-1') == 0, '9999-12-31', properties.expirationTimeStamp)) 
+        | where expirationTimeStamp > now() | project stableId, expirationTimeStamp) on stableId 
+        | where isempty(expirationTimeStamp) 
+        | project AffectedResource=tostring(properties.resourceMetadata.resourceId), Category=tostring(properties.category), SubCategory=tostring(properties.impactedField), Recommendation=tostring(properties.shortDescription.problem), Impact=tostring(properties.impact),resourceGroup,subscriptionId, id, stableId = name, recommendationTypeId = tostring(properties.recommendationTypeId), maxCpuP95 = properties.extendedProperties.MaxCpuP95 
+        | join kind = leftouter (advisorresources | where type =~ 'microsoft.advisor/configurations' | where isempty(resourceGroup) == true 
+        | project subscriptionId, excludeRecomm = properties.exclude, lowCpuThreshold = properties.lowCpuThreshold, AffectedResource=tostring(properties.resourceMetadata.resourceId),Impact=tostring(properties.impact),resourceGroup,AdditionaInfo=properties.extendedProperties,Recommendation=tostring(properties.shortDescription.problem)) on subscriptionId 
+        | extend isActive1 = iff(isnull(excludeRecomm), true, tobool(excludeRecomm) == false) 
+        | extend isActive2 = iff(recommendationTypeId == 'e10b1381-5f0a-47ff-8c7b-37bd13d7c974', iff((isnotempty(lowCpuThreshold) and isnotempty(maxCpuP95)), toint(maxCpuP95) < toint(lowCpuThreshold), iff((isempty(maxCpuP95) or toint(maxCpuP95) < 5), true, false)), true) 
+        | where isActive1 == true and isActive2 == true | join kind = leftouter (advisorresources | where type =~ 'microsoft.advisor/configurations' | where isnotempty(resourceGroup) == true 
+        | project subscriptionId, resourceGroup, excludeProperty = properties.exclude) on subscriptionId, resourceGroup 
+        | extend isActive3 = iff(isnull(excludeProperty), true, tobool(excludeProperty) == false) 
+        | where isActive3 == true | where Category == 'Cost' 
+        | project-away subscriptionId1, subscriptionId2, AffectedResource1, isActive2, isActive3, Impact1, Recommendation1, resourceGroup1, resourceGroup2
+        | order by id"
         $queryResults = Get-AllAzGraphResource -Query $advquery -subscriptionId $Subid
       } else {
-        $advquery = "advisorresources | where type == 'microsoft.advisor/recommendations' and tostring(properties.category) in ('HighAvailability') | order by id"
+        $advquery = "advisorresources | where type =~ 'microsoft.advisor/recommendations' | where properties.category == 'Cost' and properties.lastUpdated >= ago(1d) 
+        | extend AffectedResource=tostring(properties.resourceMetadata.resourceId), Category=tostring(properties.category), SubCategory=tostring(properties.impactedField), Impact=tostring(properties.impact),subscriptionId,Recommendation=tostring(properties.shortDescription.problem), id, stableId = name, recommendationTypeId = tostring(properties.recommendationTypeId), maxCpuP95 = properties.extendedProperties.MaxCpuP95,resourceGroup=strcat('/subscriptions/',subscriptionId,'/resourceGroups/',resourceGroup) 
+        | join kind = leftouter (advisorresources | where type=~'microsoft.advisor/suppressions' 
+        | extend tokens = split(id, '/') 
+        | extend stableId = iff(array_length(tokens) > 3, tokens[(array_length(tokens)-3)], '') 
+        | extend expirationTimeStamp = todatetime(iff(strcmp(tostring(properties.ttl), '-1') == 0, '9999-12-31', properties.expirationTimeStamp)) 
+        | where expirationTimeStamp > now() | project stableId, expirationTimeStamp) on stableId 
+        | where isempty(expirationTimeStamp) 
+        | project AffectedResource=tostring(properties.resourceMetadata.resourceId), Category=tostring(properties.category), SubCategory=tostring(properties.impactedField), Recommendation=tostring(properties.shortDescription.problem), Impact=tostring(properties.impact),resourceGroup,subscriptionId, id, stableId = name, recommendationTypeId = tostring(properties.recommendationTypeId), maxCpuP95 = properties.extendedProperties.MaxCpuP95 
+        | join kind = leftouter (advisorresources | where type =~ 'microsoft.advisor/configurations' | where isempty(resourceGroup) == true 
+        | project subscriptionId, excludeRecomm = properties.exclude, lowCpuThreshold = properties.lowCpuThreshold, AffectedResource=tostring(properties.resourceMetadata.resourceId),Impact=tostring(properties.impact),resourceGroup,AdditionaInfo=properties.extendedProperties,Recommendation=tostring(properties.shortDescription.problem)) on subscriptionId 
+        | extend isActive1 = iff(isnull(excludeRecomm), true, tobool(excludeRecomm) == false) 
+        | extend isActive2 = iff(recommendationTypeId == 'e10b1381-5f0a-47ff-8c7b-37bd13d7c974', iff((isnotempty(lowCpuThreshold) and isnotempty(maxCpuP95)), toint(maxCpuP95) < toint(lowCpuThreshold), iff((isempty(maxCpuP95) or toint(maxCpuP95) < 5), true, false)), true) 
+        | where isActive1 == true and isActive2 == true | join kind = leftouter (advisorresources | where type =~ 'microsoft.advisor/configurations' | where isnotempty(resourceGroup) == true 
+        | project subscriptionId, resourceGroup, excludeProperty = properties.exclude) on subscriptionId, resourceGroup 
+        | extend isActive3 = iff(isnull(excludeProperty), true, tobool(excludeProperty) == false) 
+        | where isActive3 == true | where Category == 'Cost' 
+        | project-away subscriptionId1, subscriptionId2, AffectedResource1, isActive2, isActive3, Impact1, Recommendation1, resourceGroup1, resourceGroup2
+        | order by id"
         $queryResults = Get-AllAzGraphResource -Query $advquery -subscriptionId $Subid
       }
 
@@ -1448,9 +1439,9 @@ $Script:Runtime = Measure-Command -Expression {
   }
 
   function Resolve-SupportTicket {
-    $Tickets = $Script:SupportTickets
-    $Script:SupportTickets = @()
-    $Script:SupportTickets = foreach ($Ticket in $Tickets) {
+    $Tickets = $Script:BillingSupportTickets
+    $Script:BillingSupportTickets = @()
+    $Script:BillingSupportTickets = foreach ($Ticket in $Tickets) {
       $tmp = @{
         'Ticket ID'         = [string]$Ticket.properties.supportTicketId;
         'Severity'          = [string]$Ticket.properties.severity;
@@ -1465,66 +1456,10 @@ $Script:Runtime = Measure-Command -Expression {
     }
   }
 
-  function Invoke-RetirementExtraction {
-    param($Subid)
+  #arclares removed function Invoke-RetirementExtraction
 
-    $retquery = "servicehealthresources | where properties.EventSubType contains 'Retirement' | order by id"
-    $queryResults = Get-AllAzGraphResource -Query $retquery -subscriptionId $Subid
+# arclares removed function Invoke-ServiceHealthExtraction
 
-    $Script:AllRetirements = foreach ($row in $queryResults) {
-      $OutagesRetired = $Script:RetiredOutages | Where-Object { $_.name -eq $row.properties.TrackingId }
-
-      $result = [PSCustomObject]@{
-        Subscription    = [string]$Subid
-        TrackingId      = [string]$row.properties.TrackingId
-        Status          = [string]$row.Properties.Status
-        LastUpdateTime  = [string]$OutagesRetired.properties.lastUpdateTime
-        Endtime         = [string]$OutagesRetired.properties.impactMitigationTime
-        Level           = [string]$row.properties.Level
-        Title           = [string]$row.properties.Title
-        Summary         = [string]$row.properties.Summary
-        Header          = [string]$row.properties.Header
-        ImpactedService = [string]$row.properties.Impact.ImpactedService
-        Description     = [string]$OutagesRetired.properties.description
-      }
-      $result
-    }
-  }
-
-  function Invoke-ServiceHealthExtraction {
-    param($Subid)
-
-    $Servicequery = "resources | where type == 'microsoft.insights/activitylogalerts' | order by id"
-    $queryResults = Get-AllAzGraphResource -Query $Servicequery -subscriptionId $Subid
-
-    $Rowler = @()
-    $Rowler = foreach ($row in $queryResults) {
-      foreach ($type in $row.properties.condition.allOf) {
-        if ($type.equals -eq 'ServiceHealth') {
-          $row
-        }
-      }
-    }
-
-    $Script:AllServiceHealth = foreach ($Row in $Rowler) {
-      $SubName = ($SubIds | Where-Object { $_.Id -eq ($Row.properties.scopes.split('/')[2]) }).Name
-      $EventType = if ($Row.Properties.condition.allOf.anyOf | Select-Object -Property equals) { $Row.Properties.condition.allOf.anyOf | Select-Object -Property equals | ForEach-Object { switch ($_.equals) { 'Incident' { 'Service Issues' } 'Informational' { 'Health Advisories' } 'ActionRequired' { 'Security Advisory' } 'Maintenance' { 'Planned Maintenance' } } } } Else { 'All' }
-      $Services = if ($Row.Properties.condition.allOf | Where-Object { $_.field -eq 'properties.impactedServices[*].ServiceName' }) { $Row.Properties.condition.allOf | Where-Object { $_.field -eq 'properties.impactedServices[*].ServiceName' } | Select-Object -Property containsAny | ForEach-Object { $_.containsAny } } Else { 'All' }
-      $Regions = if ($Row.Properties.condition.allOf | Where-Object { $_.field -eq 'properties.impactedServices[*].ImpactedRegions[*].RegionName' }) { $Row.Properties.condition.allOf | Where-Object { $_.field -eq 'properties.impactedServices[*].ImpactedRegions[*].RegionName' } | Select-Object -Property containsAny | ForEach-Object { $_.containsAny } } Else { 'All' }
-      $ActionGroupName = if ($Row.Properties.actions.actionGroups.actionGroupId) { $Row.Properties.actions.actionGroups.actionGroupId.split('/')[8] } else { '' }
-
-      $result = [PSCustomObject]@{
-        Name         = [string]$row.name
-        Subscription = [string]$SubName
-        Enabled      = [string]$Row.properties.enabled
-        EventType    = $EventType
-        Services     = $Services
-        Regions      = $Regions
-        ActionGroup  = $ActionGroupName
-      }
-      $result
-    }
-  }
 
   function New-JsonFile {
     [CmdletBinding(SupportsShouldProcess, ConfirmImpact = 'Low')]
@@ -1545,17 +1480,8 @@ $Script:Runtime = Measure-Command -Expression {
       $AdvisoryExporter = @{
         Advisory = $Script:Advisories
       }
-      $OutageExporter = @{
-        Outages = $Script:Outageslist
-      }
-      $RetirementExporter = @{
-        Retirements = $Script:AllRetirements
-      }
       $SupportExporter = @{
-        SupportTickets = $Script:SupportTickets
-      }
-      $ServiceHealthExporter = @{
-        ServiceHealth = $Script:AllServiceHealth
+        SupportTickets = $Script:BillingSupportTickets
       }
       $ScriptDetailsExporter = @{
         ScriptDetails = $Script:ScriptData
@@ -1581,10 +1507,10 @@ $Script:Runtime = Measure-Command -Expression {
       $ExporterArray += $ResourceExporter
       $ExporterArray += $ResourceTypeExporter
       $ExporterArray += $AdvisoryExporter
-      $ExporterArray += $OutageExporter
-      $ExporterArray += $RetirementExporter
+#arclares removed OutageExporter
+#arclares removed RetirementExporter
       $ExporterArray += $SupportExporter
-      $ExporterArray += $ServiceHealthExporter
+#arclares removed ServiceHealthExporter
       $ExporterArray += $ScriptDetailsExporter
       $ExporterArray += $OutOfScopeExporter
       if ($Debugging.IsPresent)
