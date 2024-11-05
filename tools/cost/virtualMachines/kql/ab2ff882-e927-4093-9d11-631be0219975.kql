@@ -1,0 +1,8 @@
+// Azure Resource Graph Query
+// Check OS power status
+resources
+| where type =~ 'microsoft.compute/virtualmachines' and tostring(properties.extended.instanceView.powerState.displayStatus) != 'VM deallocated' and tostring(properties.extended.instanceView.powerState.displayStatus) != 'VM running'
+| extend PowerState=tostring(properties.extended.instanceView.powerState.displayStatus)
+| extend Location=location, type
+| project id, PowerState, Location, resourceGroup, subscriptionId, VMName=name, type
+
