@@ -1,0 +1,11 @@
+// Azure Resource Graph Query
+// Check idle managed disk
+resources 
+| where type =~ 'microsoft.compute/disks' and managedBy == ''
+| extend diskState = tostring(properties.diskState)
+| where (tags !contains 'kubernetes.io-created-for-pvc') and tags !contains 'ASR-ReplicaDisk' and tags !contains 'asrseeddisk' and tags !contains 'RSVaultBackup'
+| where (managedBy == "" and diskState != 'ActiveSAS')
+or (diskState == 'Unattached' and diskState != 'ActiveSAS')
+| extend DiskId=id, DiskIDfull=id, DiskName=name, SKUName=sku.name, SKUTier=sku.tier, DiskSizeGB=tostring(properties.diskSizeGB), Location=location, TimeCreated=tostring(properties.timeCreated), QuickFix=id, SubId=subscriptionId
+| order by DiskId asc 
+| project DiskId, DiskName, DiskSizeGB, SKUName, SKUTier, resourceGroup, Location, TimeCreated, SubId
