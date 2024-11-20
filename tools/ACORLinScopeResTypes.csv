@@ -1,0 +1,11 @@
+﻿ACORL,ResourceType,FriendlyName,InACORLAndOrAdvisor
+yes,microsoft.containerservice/managedclusters,AKS Cluster,Yes
+yes,Microsoft.Compute/virtualMachines,Virtual Machine,Yes
+yes,Microsoft.compute/disks,Disk,Yes
+yes,Microsoft.Network/applicationGateways,Application Gateway,Yes
+yes,Microsoft.network/loadbalancers,Load Balancer,Yes
+yes,Microsoft.Network/publicIPAddresses,Public IP Address,Yes
+yes,Microsoft.sql/servers/elasticpoolss,SQL Server - Elastic Pool,Yes
+
+
+

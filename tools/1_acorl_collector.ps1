@@ -435,13 +435,13 @@ $Script:Runtime = Measure-Command -Expression {
         $workingFolderPath = $PSScriptRoot
         Set-Location -Path $workingFolderPath;
         if ($Script:ShellPlatform -eq 'Win32NT') {
-          $Script:clonePath = "$workingFolderPath\Azure-Proactive-Resiliency-Library"
+          $Script:clonePath = "$workingFolderPath\Azure-Cost-Optimization-Library"
         } else {
-          $Script:clonePath = "$workingFolderPath/Azure-Proactive-Resiliency-Library"
+          $Script:clonePath = "$workingFolderPath\Azure-Cost-Optimization-Library"
         }
         Write-Debug 'Checking default folder'
         if ((Get-ChildItem -Path $Script:clonePath -Force -ErrorAction SilentlyContinue | Measure-Object).Count -gt 0) {
-          Write-Debug 'APRL Folder does exist. Reseting it...'
+          Write-Debug 'ACORL Folder does exist. Reseting it...'
           Get-Item -Path $Script:clonePath | Remove-Item -Recurse -Force
           git clone $repoUrl $clonePath --quiet
         } else {
@@ -462,9 +462,9 @@ $Script:Runtime = Measure-Command -Expression {
 
         # Validates if queries are applicable based on Resource Types present in the current subscription
         if ($Script:ShellPlatform -eq 'Win32NT') {
-          $RootTypes = Get-Content -Path "$clonePath\tools\WARAinScopeResTypes.csv" | ConvertFrom-Csv
+          $RootTypes = Get-Content -Path "$clonePath\tools\ACORLinScopeResTypes.csv" | ConvertFrom-Csv
         } else {
-          $RootTypes = Get-Content -Path "$clonePath/tools/WARAinScopeResTypes.csv" | ConvertFrom-Csv
+          $RootTypes = Get-Content -Path "$clonePath/tools/ACORLinScopeResTypes.csv" | ConvertFrom-Csv
         }
         $Script:SupportedResTypes = (($RootTypes | Where-Object {$_.WARAinScope -eq 'yes'}).ResourceType).tolower()
         $Script:AdvisorTypes = (($RootTypes | Where-Object {$_.inAprlAndOrAdvisor -eq 'yes'}).ResourceType).tolower()
@@ -878,25 +878,8 @@ $Script:Runtime = Measure-Command -Expression {
           $result
         }
       }
-
-      if ($type -like '*azure-specialized-workloads/*') {
-        $result = [PSCustomObject]@{
-          validationAction = [string]$validationAction
-          recommendationId = [string]$checkId
-          name             = [string]''
-          Type             = [string]$type
-          id               = [string]''
-          param1           = [string]''
-          param2           = [string]''
-          param3           = [string]''
-          param4           = [string]''
-          param5           = [string]''
-          checkName        = [string]$checkName
-          selector         = [string]$selector
-        }
-        $result
-      }
-    } catch {
+# arclares remove azure specialized workloads
+ } catch {
       # Report Error
       $errorMessage = $_.Exception.Message
       Write-Host "Error processing query results: $errorMessage" -ForegroundColor Red
@@ -947,7 +930,7 @@ $Script:Runtime = Measure-Command -Expression {
 
         # Create the arrays used to store the kusto queries
         $kqlQueryMap = @{}
-        $aprlKqlFiles = @()
+        $acorlKqlFiles = @()
         $ServiceNotAvailable = @()
 
         foreach ($Type in $resultAllResourceTypes.Name) {
@@ -958,13 +941,17 @@ $Script:Runtime = Measure-Command -Expression {
 
             $Path = ''
             if ($Script:ShellPlatform -eq 'Win32NT') {
-              $Path = ($clonePath + '\azure-resources\' + $Provider + '\' + $ResourceType)
-              $RecommendationsPath = ($clonePath + '\azure-resources\' + $Provider + '\' + $ResourceType + '\recommendations.yaml')
+              #arclares - changed path for tests only
+              #$Path = ($clonePath + '\azure-resources\' + $Provider + '\' + $ResourceType)
+              $Path = ($clonePath + '\cost\' + $Provider + '\' + $ResourceType)
+              #arclares - changed recommendationspath for tests only
+              #$RecommendationsPath = ($clonePath + '\azure-resources\' + $Provider + '\' + $ResourceType + '\recommendations.yaml')
+              $RecommendationsPath = ($clonePath + '\cost library\costbestpractices\tools\azure-resources\recommendations.yaml')
               $RecommendationValidation = ''
               $RecommendationValidation = Get-ChildItem -Path $RecommendationsPath -File -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
               if (![string]::IsNullOrEmpty($RecommendationValidation))
                 {
-                  $aprlKqlFiles += Get-ChildItem -Path $Path -Filter '*.kql' -Recurse
+                  $acorlKqlFiles += Get-ChildItem -Path $Path -Filter '*.kql' -Recurse
                 }
               else
                 {
@@ -979,7 +966,7 @@ $Script:Runtime = Measure-Command -Expression {
               $RecommendationValidation = Get-ChildItem -Path $Path -Filter 'recommendations.yaml' -Recurse | Where-Object { $_.FullName -like "*$ProvPath*" }
               if (![string]::IsNullOrEmpty($RecommendationValidation))
                 {
-                  $aprlKqlFiles += Get-ChildItem -Path $Path -Filter '*.kql' -Recurse | Where-Object { $_.FullName -like "*$ProvPath*" }
+                  $acorlKqlFiles += Get-ChildItem -Path $Path -Filter '*.kql' -Recurse | Where-Object { $_.FullName -like "*$ProvPath*" }
                 }
               else
                 {
@@ -995,16 +982,16 @@ $Script:Runtime = Measure-Command -Expression {
         # Checks if specialized workloads will be validated
 #arclares removed specialized workloads
         # Populates the QueryMap hashtable
-        foreach ($aprlKqlFile in $aprlKqlFiles) {
+        foreach ($acorlKqlFile in $acorlKqlFiles) {
           if ($Script:ShellPlatform -eq 'Win32NT') {
-            $kqlShort = [string]$aprlKqlFile.FullName.split('\')[-1]
+            $kqlShort = [string]$acorlKqlFile.FullName.split('\')[-1]
           } else {
-            $kqlShort = [string]$aprlKqlFile.FullName.split('/')[-1]
+            $kqlShort = [string]$acorlKqlFile.FullName.split('/')[-1]
           }
           $kqlName = $kqlShort.split('.')[0]
 
           # Create APRL query map based on recommendation
-          $kqlQueryMap[$kqlName] = $aprlKqlFile
+          $kqlQueryMap[$kqlName] = $acorlKqlFile
         }
 
         if ($Script:RunbookQueryOverrides) {
