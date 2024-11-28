@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Azure Cost Optimization Resource Library (ACORL)</title>
+    <link>http://localhost:1313/</link>
+    <description>Recent content on Azure Cost Optimization Resource Library (ACORL)</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 28 Nov 2024 06:38:11 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Newpage</title>
+      <link>http://localhost:1313/test/newpage/</link>
+      <pubDate>Thu, 28 Nov 2024 06:38:11 +0000</pubDate>
+      <guid>http://localhost:1313/test/newpage/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Home</title>
+      <link>http://localhost:1313/docs/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/docs/</guid>
+      <description>&lt;div class=&#34;flex align-center gdoc-page__anchorwrap&#34;&gt;&#xD;&#xA;    &lt;h2 id=&#34;introduction&#34;&#xD;&#xA;    &gt;&#xD;&#xA;        Introduction&#xD;&#xA;    &lt;/h2&gt;&#xD;&#xA;    &lt;a data-clipboard-text=&#34;http://localhost:1313/docs/#introduction&#34; class=&#34;gdoc-page__anchor clip flex align-center&#34; title=&#34;Anchor to: Introduction&#34; aria-label=&#34;Anchor to: Introduction&#34; href=&#34;#introduction&#34;&gt;&#xD;&#xA;        &lt;svg class=&#34;gdoc-icon gdoc_link&#34;&gt;&lt;use xlink:href=&#34;#gdoc_link&#34;&gt;&lt;/use&gt;&lt;/svg&gt;&#xD;&#xA;    &lt;/a&gt;&#xD;&#xA;&lt;/div&gt;&#xD;&#xA;&lt;p&gt;This is &lt;strong&gt;bold&lt;/strong&gt; text, and this is &lt;em&gt;emphasized&lt;/em&gt; text.&lt;/p&gt;&#xA;&lt;p&gt;Visit the &lt;a&#xD;&#xA;  class=&#34;gdoc-markdown__link&#34;&#xD;&#xA;  href=&#34;https://gohugo.io&#34;&#xD;&#xA;&gt;Hugo&lt;/a&gt; website!&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

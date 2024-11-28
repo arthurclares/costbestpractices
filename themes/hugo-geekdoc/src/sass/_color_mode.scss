@@ -1,0 +1,140 @@
+@mixin color_theme_light {
+  --header-background: #{$main-color};
+  --header-font-color: #{$white};
+
+  --body-background: #{$body-background};
+  --body-font-color: #{$body-font-color};
+
+  --mark-color: #{$mark-color};
+
+  --button-background: #{color.scale($main-color, $lightness: 15%)};
+  --button-border-color: #{$main-color};
+
+  --link-color: #{$link-color};
+  --link-color-visited: #{$link-color-visited};
+
+  --hint-link-color: #{$link-color};
+  --hint-link-color-visited: #{$link-color-visited};
+
+  --accent-color-dark: #{$gray-400};
+  --accent-color: #{$gray-200};
+  --accent-color-lite: #{$gray-100};
+
+  --control-icons: #{color.scale($body-font-color, $lightness: 40%)};
+
+  --footer-background: #{$second-color};
+  --footer-font-color: #{$white};
+  --footer-link-color: #{$link-color-footer};
+  --footer-link-color-visited: #{$link-color-footer};
+
+  .dark-mode-dim .gdoc-markdown {
+    img {
+      filter: none;
+    }
+  }
+
+  .gdoc-markdown {
+    .gdoc-hint,
+    .gdoc-props__tag,
+    .admonitionblock {
+      filter: none;
+    }
+
+    .gdoc-hint__title,
+    .admonitionblock table td:first-child {
+      background-color: color.scale($gray-600, $alpha: -95%);
+    }
+  }
+}
+
+@mixin color_theme_dark {
+  --header-background: #{$main-color};
+  --header-font-color: #{$white};
+
+  --body-background: #{$body-background-dark};
+  --body-font-color: #{color.scale($body-background-dark, $lightness: 70%)};
+
+  --mark-color: #{$mark-color};
+
+  --button-background: #{color.scale($main-color, $lightness: 15%)};
+  --button-border-color: #{$main-color};
+
+  --link-color: #{$link-color-dark};
+  --link-color-visited: #{$link-color-visited-dark};
+
+  --hint-link-color: #{$link-color};
+  --hint-link-color-visited: #{$link-color-visited};
+
+  --accent-color-dark: #{color.scale($body-background-dark, $lightness: -60%)};
+  --accent-color: #{color.scale($body-background-dark, $lightness: -30%)};
+  --accent-color-lite: #{color.scale($body-background-dark, $lightness: -15%)};
+
+  --control-icons: #{color.scale($body-font-color, $lightness: 40%)};
+
+  --footer-background: #{$second-color};
+  --footer-font-color: #{$white};
+  --footer-link-color: #{$link-color-footer};
+  --footer-link-color-visited: #{$link-color-footer};
+
+  .dark-mode-dim {
+    .gdoc-markdown img {
+      filter: brightness(0.75) grayscale(0.2);
+    }
+  }
+
+  .gdoc-markdown {
+    .gdoc-hint,
+    .gdoc-props__tag,
+    .admonitionblock {
+      filter: saturate(2.5) brightness(0.85);
+    }
+
+    .gdoc-hint,
+    .admonitionblock {
+      a {
+        color: var(--hint-link-color);
+
+        &:visited {
+          color: var(--hint-link-color-visited);
+        }
+      }
+    }
+
+    .gdoc-hint__title,
+    .admonitionblock table td:first-child {
+      background-color: color.scale($gray-600, $alpha: -85%);
+    }
+  }
+}
+
+@mixin code_theme_dark {
+  @include chroma_dark;
+
+  & {
+    --code-background: #{$code-background-dark};
+    --code-accent-color: #{color.scale($code-background-dark, $lightness: -30%)};
+    --code-accent-color-lite: #{color.scale($code-background-dark, $lightness: -15%)};
+    --code-font-color: #{$code-font-color-dark};
+
+    --code-copy-background: #{$code-background-dark};
+    --code-copy-font-color: #{color.scale($code-font-color-dark, $lightness: -15%)};
+    --code-copy-border-color: #{color.scale($code-font-color-dark, $lightness: -20%)};
+    --code-copy-success-color: #{color.scale(map.get($hint-colors, "ok"), $alpha: -55%)};
+  }
+}
+
+@mixin code_theme_light {
+  @include chroma_github;
+
+  & {
+    --code-background: #{$code-background};
+    --code-accent-color: #{color.scale($code-background, $lightness: -45%)};
+    --code-accent-color-lite: #{color.scale($code-background, $lightness: -15%)};
+    --code-font-color: #{$code-font-color};
+
+    --code-copy-background: #{$code-background};
+    --code-copy-font-color: #{color.scale($code-font-color, $lightness: 20%)};
+    --code-copy-border-color: #{color.scale($code-font-color, $lightness: 40%)};
+    --code-copy-success-color: #{map.get($hint-colors, "ok")};
+  }
+}
