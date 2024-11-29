@@ -2,18 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tests on Azure Cost Optimization Resource Library (ACORL)</title>
-    <link>http://localhost:1313/test/</link>
+    <link>http://localhost:1313/arthurclares/costbestpractices/test/</link>
     <description>Recent content in Tests on Azure Cost Optimization Resource Library (ACORL)</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 28 Nov 2024 06:38:11 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/test/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Newpage</title>
-      <link>http://localhost:1313/test/newpage/</link>
-      <pubDate>Thu, 28 Nov 2024 06:38:11 +0000</pubDate>
-      <guid>http://localhost:1313/test/newpage/</guid>
-      <description></description>
-    </item>
+    <lastBuildDate></lastBuildDate>
+    <atom:link href="http://localhost:1313/arthurclares/costbestpractices/test/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

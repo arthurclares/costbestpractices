@@ -1,0 +1,28 @@
+---
+main:
+  - name: "Home"
+    ref: "/"
+    sub:
+      - name: "Overview"
+        ref: "home/overview"
+  - name: "Azure Services"
+    ref: "services"
+    sub:
+      - name: "Compute"
+        ref: "azure-resources/compute"
+        sub:
+          - name: "Disks"
+            ref: "azure-resources/compute/disks"
+          - name: "Managed Clusters"
+            ref: "azure-resources/compute/managedClusters"
+          - name: "Virtual Machines"
+            ref: "azure-resources/compute/virtualMachines"
+      - name: "Network"
+        ref: "azure-resources/network"
+        sub:
+          - name: "Application Gateway"
+            ref: "azure-resources/network/applicationGateway"
+          - name: "Load Balancer"
+            ref: "azure-resources/network/loadBalancer"
+          - name: "Application Gateway"
+            ref: "azure-resources/network/publicIPAddresses"
