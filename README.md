@@ -17,34 +17,41 @@ The project's directory is organized as follows:
 
 ### Folder Structure
 
+This project uses a structured approach for organizing its content, which is divided into two main folders: `docs/` and `data/`. Below is an overview of the folder structure.
 
-docs/
-├── content/
-│   ├── azure-resources/
-│   │   ├── compute/
-│   │   │   ├── managedClusters/
-│   │   │   │   ├── kql/
-│   │   │   │   │   ├── [unique-query-id].kql
-│   │   │   │   ├── _index.md
-│   │   │   ├── disks/
-│   │   │   │   ├── kql/
-│   │   │   │   │   ├── [unique-query-id].kql
-│   │   │   │   ├── _index.md
-│   │   │   ├── virtualMachines/
-│   │   │   │   ├── kql/
-│   │   │   │   │   ├── [unique-query-id].kql
-│   │   │   │   ├── _index.md
-├── data/
-│   ├── recommendations/
-│   │   ├── azure-resources/
-│   │   │   ├── compute/
-│   │   │   │   ├── managedClusters/
-│   │   │   │   │   ├── recommendations.yaml
-│   │   │   │   ├── disks/
-│   │   │   │   │   ├── recommendations.yaml
-│   │   │   │   ├── virtualMachines/
-│   │   │   │   │   ├── recommendations.yaml
+## docs/
 
+The `docs/` directory contains content related to Azure resources and their corresponding queries.
+
+### content/
+- **azure-resources/**
+  - **compute/**
+    - **managedClusters/**
+      - **kql/**
+        - `[unique-query-id].kql`
+      - `_index.md`
+    - **disks/**
+      - **kql/**
+        - `[unique-query-id].kql`
+      - `_index.md`
+    - **virtualMachines/**
+      - **kql/**
+        - `[unique-query-id].kql`
+      - `_index.md`
+
+## data/
+
+The `data/` directory contains recommendations related to Azure resources.
+
+### recommendations/
+- **azure-resources/**
+  - **compute/**
+    - **managedClusters/**
+      - `recommendations.yaml`
+    - **disks/**
+      - `recommendations.yaml`
+    - **virtualMachines/**
+      - `recommendations.yaml`
 
 ### Directory Structure
 
