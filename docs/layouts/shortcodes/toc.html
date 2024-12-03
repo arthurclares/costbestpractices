@@ -1,0 +1,27 @@
+{{/* Get the base directory parameter from the shortcode */}}
+{{ $baseDir := .Get "dir" }}
+
+{{/* Ensure the base directory is not empty */}}
+{{ if $baseDir }}
+  {{/* Get the list of directories in the base directory */}}
+  {{ $currentDir := printf "content/%s" $baseDir }}
+  {{ $folders := readDir $currentDir }}
+
+  {{/* Check if there are subdirectories */}}
+  {{ if $folders }}
+    <ul>
+      {{ range $folders }}
+        {{/* Only include directories with an _index.md file */}}
+        {{ if and (.IsDir) (fileExists (printf "%s/%s/_index.md" $currentDir .Name)) }}
+          <li>
+            <a href="{{ printf "/arthurclares/costbestpractices/%s/%s/" $baseDir .Name }}">{{ .Name | humanize | title }}</a>
+          </li>
+        {{ end }}
+      {{ end }}
+    </ul>
+  {{ else }}
+    <p>No services found in the directory: {{ $baseDir }}</p>
+  {{ end }}
+{{ else }}
+  <p>Error: Directory parameter is missing or invalid.</p>
+{{ end }}

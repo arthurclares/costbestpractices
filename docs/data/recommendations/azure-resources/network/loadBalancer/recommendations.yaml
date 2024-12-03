@@ -1,0 +1,17 @@
+- description: Load balancer without a backend pool
+  acorlGuid: ab703887-fa23-4915-abdc-3defbea89f7a
+  recommendationTypeId: null
+  recommendationControl: UsageOptimization/OrphanedResources
+  recommendationImpact: High
+  recommendationResourceType: Microsoft.network/loadbalancers
+  recommendationMetadataState: Active
+  remediationAction: |
+    Review and remove this resource if not needed
+  potentialBenefits: Remove idle resources
+  pgVerified: true
+  publishedToLearn: false
+  automationAvailable: true
+  tags: null
+  learnMoreLink:
+    - name: xx
+      url: "https://aka.ms/finops/toolkit"

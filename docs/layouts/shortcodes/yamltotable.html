@@ -1,0 +1,29 @@
+{{- $resourceType := .Get "resourceType" }} <!-- Get the XX value -->
+{{- $resource := .Get "resource" }} <!-- Get the YY value -->
+
+{{- $file := printf "recommendations/azure-resources/%s/%s/recommendations" $resourceType $resource }} <!-- Construct the dynamic file path -->
+
+{{- $data := index .Site.Data (split $file "/") | default (slice) }} <!-- Retrieve the YAML data using the constructed path -->
+
+{{- if gt (len $data) 0 }} <!-- Check if data exists -->
+<table>
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>Recommendation Control</th>
+      <th>Impact</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{- range $data }}
+    <tr>
+      <td>{{ .description }}</td>
+      <td>{{ .recommendationControl }}</td>
+      <td>{{ .recommendationImpact }}</td>
+    </tr>
+    {{- end }}
+  </tbody>
+</table>
+{{- else }}
+<p>No data found for file: {{ $file }}</p>
+{{- end }}

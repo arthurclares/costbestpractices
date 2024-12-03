@@ -1,0 +1,36 @@
+- description: SQL Database elastic pool has no associated databases
+  acorlGuid: '50987aae-a46d-49ae-bd41-a670a4dd18bd'
+  recommendationTypeId: null
+  recommendationControl: UsageOptimization/OrphanedResources
+  recommendationImpact: High
+  recommendationResourceType: Microsoft.sql/servers/elasticpools
+  recommendationMetadataState: Active
+  remediationAction: |
+    Review and remove this resource if not needed
+  potentialBenefits: Remove idle resources
+  pgVerified: true
+  publishedToLearn: false
+  automationAvailable: true
+  tags: null
+  learnMoreLink:
+    - name: xx
+      url: "https://aka.ms/finops/toolkit"
+
+- description: SQL virtual machine is not leveraging Azure Hybrid Benefit
+  acorlGuid: '01decd62-f91b-4434-abe5-9a09e13e018f'
+  recommendationTypeId: null
+  recommendationControl: RateOptimization/Licensing
+  recommendationImpact: High
+  recommendationResourceType: Microsoft.sql/servers/elasticpools
+  recommendationMetadataState: Active
+  remediationAction: |
+    Review the SQL licensing option
+  potentialBenefits: License optimization
+  pgVerified: true
+  publishedToLearn: false
+  automationAvailable: true
+  tags: null
+  learnMoreLink:
+    - name: xx
+      url: "https://aka.ms/finops/toolkit"
+

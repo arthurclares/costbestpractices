@@ -1,0 +1,17 @@
+- description: Application Gateway without any backend pool
+  acorlGuid: 4f69df93-5972-44e0-97cf-4343c2bcf4b8
+  recommendationTypeId: null
+  recommendationControl: UsageOptimization/OrphanedResources
+  recommendationImpact: High
+  recommendationResourceType: Microsoft.Network/applicationGateways
+  recommendationMetadataState: Active
+  remediationAction: |
+    Review and remove this resource if not needed
+  potentialBenefits: Remove idle resources
+  pgVerified: true
+  publishedToLearn: false
+  automationAvailable: true
+  tags: null
+  learnMoreLink:
+    - name: xx
+      url: "https://aka.ms/finops/toolkit"

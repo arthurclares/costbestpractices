@@ -1,0 +1,39 @@
+{{- $resourceType := .Get "resourceType" }} <!-- Get the XX value -->
+{{- $resource := .Get "resource" }} <!-- Get the YY value -->
+
+{{- $file := printf "data/recommendations/azure-resources/%s/%s/recommendations.yaml" $resourceType $resource }} <!-- Construct the dynamic file path -->
+
+{{- $yaml := (readFile $file | transform.Unmarshal) | default slice }} <!-- Read and parse YAML, fallback to empty slice -->
+
+<p>Looking for file at: {{ $file }}</p>
+
+{{- if gt (len $yaml) 0 }} <!-- Check if data exists -->
+<table>
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>ACORL Guid</th>
+      <th>Recommendation Control</th>
+      <th>Impact</th>
+      <th>Resource Type</th>
+      <th>Remediation</th>
+      <th>Benefits</th>      
+    </tr>
+  </thead>
+  <tbody>
+    {{- range $yaml }}
+    <tr>
+      <td>{{ .description }}</td>
+      <td>{{ .acorlGuid }}</td>
+      <td>{{ .recommendationControl }}</td>
+      <td>{{ .recommendationImpact }}</td>
+      <td>{{ .recommendationResourceType }}</td>
+      <td>{{ .remediationAction }}</td>
+      <td>{{ .potentialBenefits }}</td>
+    </tr>
+    {{- end }}
+  </tbody>
+</table>
+{{- else }}
+<p>No data found for file: {{ $file }}</p>
+{{- end }}
