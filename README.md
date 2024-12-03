@@ -17,7 +17,7 @@ The project's directory is organized as follows:
 
 ### Folder Structure
 
-{{< highlight markdown >}}
+
 docs/
 ├── content/
 │   ├── azure-resources/
@@ -44,7 +44,7 @@ docs/
 │   │   │   │   │   ├── recommendations.yaml
 │   │   │   │   ├── virtualMachines/
 │   │   │   │   │   ├── recommendations.yaml
-{{< /highlight >}}
+
 
 ### Directory Structure
 
