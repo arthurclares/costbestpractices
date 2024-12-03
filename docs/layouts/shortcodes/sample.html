@@ -1,0 +1,9 @@
+<!-- Shortcode to include the sample.md file -->
+{{ $path := "recommendations/azure-resources/compute/disks/sample.md" }}
+{{ with .Page.Site.GetPage $path }}
+<div class="sample-file-content">
+  {{ .Content | safeHTML }}
+</div>
+{{ else }}
+<p><strong>Error:</strong> Sample file not found at <code>{{ $path }}</code>.</p>
+{{ end }}

@@ -12,6 +12,9 @@ pygmentsCodeFences = true
 disablePathToLower = true
 enableGitInfo = true
 
+# Highlight code
+highlightLanguages = ["kql"]
+
 # Required if you want to render robots.txt template
 enableRobotsTXT = true
 
@@ -22,6 +25,7 @@ enableRobotsTXT = true
   [markup.tableOfContents]
     startLevel = 1
     endLevel = 9
+
 
 [taxonomies]
   tag = "tags"

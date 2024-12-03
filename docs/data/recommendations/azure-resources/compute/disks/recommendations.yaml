@@ -1,0 +1,16 @@
+- description: "Unattached (orphaned) disk is incurring in storage costs"
+  acorlGuid: "e0c02939-ce02-4f9d-881f-8067ae7ec90f"
+  recommendationTypeId: null
+  recommendationControl: "UsageOptimization/OrphanedResources"
+  recommendationImpact: "High"
+  recommendationResourceType: "Microsoft.compute/disks"
+  recommendationMetadataState: "Active"
+  remediationAction: "Remove or downgrade the unattached disk."
+  potentialBenefits: "Remove idle resources"
+  pgVerified: true
+  publishedToLearn: false
+  automationAvailable: true
+  tags: null
+  learnMoreLink:
+    - name: "xx"
+      url: "https://aka.ms/finops/toolkit"

@@ -1,0 +1,20 @@
+{{/* Get the file parameter from the shortcode */}}
+{{ $fileName := .Get "file" }}
+
+{{/* Construct the full KQL file path relative to the page directory */}}
+{{ $currentDir := .Page.File.Dir }} <!-- Current directory of the page -->
+{{ $kqlFile := printf "%s/kql/%s.kql" $currentDir $fileName }}
+
+{{/* Attempt to read the KQL file content */}}
+{{ $kqlContent := readFile $kqlFile }}
+
+{{/* Check if the KQL content exists and render it as a code block */}}
+{{ if $kqlContent }}
+<pre style="background-color: #f4f4f4; font-family: 'Courier New', monospace; color: #333; max-width: 100%; white-space: pre-wrap; word-wrap: break-word; overflow-x: auto;">
+<code class="language-kql">
+{{ $kqlContent | safeHTML }}
+</code>
+</pre>
+{{ else }}
+<p style="color: red;">No KQL file found at: {{ $kqlFile }}</p>
+{{ end }}

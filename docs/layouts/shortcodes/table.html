@@ -1,0 +1,31 @@
+{{- $data := .Site.Data -}}
+<!-- {{- printf "Data Directory: %v\n" $data }}  Print the entire data directory -->
+
+{{- $file := .Get "file" | replace "." "/" -}}
+{{- printf "File Path: %v\n" $file }} <!-- Print the file path you are constructing -->
+
+{{- $content := index $data (split $file "/") | default (slice) -}}
+{{- printf "Content: %v\n" $content }} <!-- Print the content being retrieved -->
+
+{{- if gt (len $content) 0 -}}
+<table>
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>Recommendation Control</th>
+      <th>Impact</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{- range $content }}
+    <tr>
+      <td>{{ .description }}</td>
+      <td>{{ .recommendationControl }}</td>
+      <td>{{ .recommendationImpact }}</td>
+    </tr>
+    {{- end }}
+  </tbody>
+</table>
+{{- else -}}
+<p>No data found for file path: {{ .Get "file" }}</p>
+{{- end }}
