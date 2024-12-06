@@ -12,11 +12,10 @@
 <meta name="generator" content="Hugo 0.139.0">
 
 
-  <meta name="description" content="Error: Directory parameter is missing or invalid.
-ScriptsThis section lists of all of the information pertaining to the ACORL tooling/scripts. The guidance is broken down into the following sections:
-Collector Analyzer " />
+  <meta name="description" content="Advisor recommendationsThis query will show all the Advisor recommendations related to cost optimization.
+Review all cost related Advisor recommendationsadvisorresources| where type == &#39;microsoft.advisor/recommendations&#39;| where properties.category == &#39;Cost&#39;| project x_RecommendationId = id,x_ResourceGroupName = tolower(resourceGroup),SubAccountId = subscriptionId,x_RecommendationCategory = tostring(properties.category),x_RecommendationImpact = tostring(properties.impact),x_RecommendationTypeId = tostring(properties.recommendationTypeId),x_RecommendationControl = tostring(properties.extendedProperties.recommendationControl),x_RecommendationMaturityLevel = tostring(properties.extendedProperties.maturityLevel),x_RecommendationDescription = tostring(properties.shortDescription.problem),x_RecommendationSolution = tostring(properties.shortDescription.solution),ResourceId = tolower(properties.resourceMetadata.resourceId),x_ResourceType = tolower(properties.impactedField),ResourceName = tolower(properties.impactedValue),x_RecommendationDetails = tostring(properties.extendedProperties),x_RecommendationDate = tostring(properties.lastUpdated)| join kind=leftouter (resourcecontainers| where type == &#39;microsoft.resources/subscriptions&#39;| project SubAccountName = name, SubAccountId = subscriptionId) on SubAccountId| project-away SubAccountId1" />
 
-    <title>ACORL Scripts | Azure Cost Optimization Resource Library (ACORL)</title>
+    <title>Advisor | Azure Cost Optimization Resource Library (ACORL)</title>
 
     <link rel="icon" type="image/svg+xml" href="/arthurclares/costbestpractices/favicon/favicon.svg" />
 <link
@@ -37,40 +36,38 @@ Collector Analyzer " />
     
   <meta
     property="og:title"
-    content="ACORL Scripts"
+    content="Advisor"
   />
   <meta property="og:site_name" content="Azure Cost Optimization Resource Library (ACORL)" />
-  <meta property="og:description" content="Error: Directory parameter is missing or invalid.
-ScriptsThis section lists of all of the information pertaining to the ACORL tooling/scripts. The guidance is broken down into the following sections:
-Collector Analyzer " />
+  <meta property="og:description" content="Advisor recommendationsThis query will show all the Advisor recommendations related to cost optimization.
+Review all cost related Advisor recommendationsadvisorresources| where type == &#39;microsoft.advisor/recommendations&#39;| where properties.category == &#39;Cost&#39;| project x_RecommendationId = id,x_ResourceGroupName = tolower(resourceGroup),SubAccountId = subscriptionId,x_RecommendationCategory = tostring(properties.category),x_RecommendationImpact = tostring(properties.impact),x_RecommendationTypeId = tostring(properties.recommendationTypeId),x_RecommendationControl = tostring(properties.extendedProperties.recommendationControl),x_RecommendationMaturityLevel = tostring(properties.extendedProperties.maturityLevel),x_RecommendationDescription = tostring(properties.shortDescription.problem),x_RecommendationSolution = tostring(properties.shortDescription.solution),ResourceId = tolower(properties.resourceMetadata.resourceId),x_ResourceType = tolower(properties.impactedField),ResourceName = tolower(properties.impactedValue),x_RecommendationDetails = tostring(properties.extendedProperties),x_RecommendationDate = tostring(properties.lastUpdated)| join kind=leftouter (resourcecontainers| where type == &#39;microsoft.resources/subscriptions&#39;| project SubAccountName = name, SubAccountId = subscriptionId) on SubAccountId| project-away SubAccountId1" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://localhost:1313/arthurclares/costbestpractices/tools/tools/" />
+<meta property="og:url" content="http://localhost:1313/arthurclares/costbestpractices/azure-resources/advisor/advisor/" />
 
-<meta property="article:section" content="Tools" />
+<meta property="article:section" content="Azure Resources" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="ACORL Scripts" />
-  <meta name="twitter:description" content="Error: Directory parameter is missing or invalid.
-ScriptsThis section lists of all of the information pertaining to the ACORL tooling/scripts. The guidance is broken down into the following sections:
-Collector Analyzer " />
+<meta name="twitter:title" content="Advisor" />
+  <meta name="twitter:description" content="Advisor recommendationsThis query will show all the Advisor recommendations related to cost optimization.
+Review all cost related Advisor recommendationsadvisorresources| where type == &#39;microsoft.advisor/recommendations&#39;| where properties.category == &#39;Cost&#39;| project x_RecommendationId = id,x_ResourceGroupName = tolower(resourceGroup),SubAccountId = subscriptionId,x_RecommendationCategory = tostring(properties.category),x_RecommendationImpact = tostring(properties.impact),x_RecommendationTypeId = tostring(properties.recommendationTypeId),x_RecommendationControl = tostring(properties.extendedProperties.recommendationControl),x_RecommendationMaturityLevel = tostring(properties.extendedProperties.maturityLevel),x_RecommendationDescription = tostring(properties.shortDescription.problem),x_RecommendationSolution = tostring(properties.shortDescription.solution),ResourceId = tolower(properties.resourceMetadata.resourceId),x_ResourceType = tolower(properties.impactedField),ResourceName = tolower(properties.impactedValue),x_RecommendationDetails = tostring(properties.extendedProperties),x_RecommendationDate = tostring(properties.lastUpdated)| join kind=leftouter (resourcecontainers| where type == &#39;microsoft.resources/subscriptions&#39;| project SubAccountName = name, SubAccountId = subscriptionId) on SubAccountId| project-away SubAccountId1" />
 
 
   <script type="application/ld+json">
   {
       "@context": "http://schema.org",
       "@type": "TechArticle",
-      "articleSection": "Tools",
-      "name": "ACORL Scripts",
-      "url" : "http://localhost:1313/arthurclares/costbestpractices/tools/tools/",
-      "headline": "ACORL Scripts",
-      "description": "Error: Directory parameter is missing or invalid.\nScripts\rThis section lists of all of the information pertaining to the ACORL tooling\/scripts. The guidance is broken down into the following sections:\nCollector Analyzer ",
-      "wordCount" : "32",
+      "articleSection": "Azure Resources",
+      "name": "Advisor",
+      "url" : "http://localhost:1313/arthurclares/costbestpractices/azure-resources/advisor/advisor/",
+      "headline": "Advisor",
+      "description": "\rAdvisor recommendations\rThis query will show all the Advisor recommendations related to cost optimization.\nReview all cost related Advisor recommendations\radvisorresources\r| where type == \u0027microsoft.advisor\/recommendations\u0027\r| where properties.category == \u0027Cost\u0027\r| project x_RecommendationId = id,\rx_ResourceGroupName = tolower(resourceGroup),\rSubAccountId = subscriptionId,\rx_RecommendationCategory = tostring(properties.category),\rx_RecommendationImpact = tostring(properties.impact),\rx_RecommendationTypeId = tostring(properties.recommendationTypeId),\rx_RecommendationControl = tostring(properties.extendedProperties.recommendationControl),\rx_RecommendationMaturityLevel = tostring(properties.extendedProperties.maturityLevel),\rx_RecommendationDescription = tostring(properties.shortDescription.problem),\rx_RecommendationSolution = tostring(properties.shortDescription.solution),\rResourceId = tolower(properties.resourceMetadata.resourceId),\rx_ResourceType = tolower(properties.impactedField),\rResourceName = tolower(properties.impactedValue),\rx_RecommendationDetails = tostring(properties.extendedProperties),\rx_RecommendationDate = tostring(properties.lastUpdated)\r| join kind=leftouter (\rresourcecontainers\r| where type == \u0027microsoft.resources\/subscriptions\u0027\r| project SubAccountName = name, SubAccountId = subscriptionId\r) on SubAccountId\r| project-away SubAccountId1",
+      "wordCount" : "102",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "http://localhost:1313/arthurclares/costbestpractices/tools/tools/"
+          "@id": "http://localhost:1313/arthurclares/costbestpractices/azure-resources/advisor/advisor/"
       },
       "copyrightHolder" : "Azure Cost Optimization Resource Library (ACORL)",
       "copyrightYear" : "0001",
@@ -154,7 +151,7 @@ Collector Analyzer " />
   href="/arthurclares/costbestpractices/custom.css"
   media="all"
 />
-  <link href="http://localhost:1313/arthurclares/costbestpractices/tools/tools/" rel="canonical" type="text/html" />
+  <link href="http://localhost:1313/arthurclares/costbestpractices/azure-resources/advisor/advisor/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -480,7 +477,7 @@ Collector Analyzer " />
                 
                 <a
                   href="/arthurclares/costbestpractices/azure-resources/advisor/advisor"
-                  class="gdoc-nav__entry"
+                  class="gdoc-nav__entry is-active"
                 >
                   Advisor
                 </a>
@@ -1065,7 +1062,7 @@ Collector Analyzer " />
                 
                 <a
                   href="/arthurclares/costbestpractices/tools/tools"
-                  class="gdoc-nav__entry is-active"
+                  class="gdoc-nav__entry"
                 >
                   Scripts
                 </a>
@@ -1148,7 +1145,7 @@ Collector Analyzer " />
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/arthurclares/costbestpractices/' href='/arthurclares/costbestpractices/'><span itemprop='name'>Azure Cost Optimizarion Recommendation Library (ACORL)</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/arthurclares/costbestpractices/tools/' href='/arthurclares/costbestpractices/tools/'><span itemprop='name'>Tools</span></a><meta itemprop='position' content='4' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>ACORL Scripts</span><meta itemprop='position' content='5' /></li>
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/arthurclares/costbestpractices/' href='/arthurclares/costbestpractices/'><span itemprop='name'>Azure Cost Optimizarion Recommendation Library (ACORL)</span></a><meta itemprop='position' content='4' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/arthurclares/costbestpractices/azure-resources/' href='/arthurclares/costbestpractices/azure-resources/'><span itemprop='name'>Azure-Resources</span></a><meta itemprop='position' content='5' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Advisor</span><meta itemprop='position' content='6' /></li>
   
 
   
@@ -1166,33 +1163,81 @@ Collector Analyzer " />
   <article
     class="gdoc-markdown gdoc-markdown__align--left"
   >
-    <h1>ACORL Scripts</h1>
-    
-
-
-
-
-  <p>Error: Directory parameter is missing or invalid.</p>
-
-
-<div class="gdoc-page__anchorwrap">
-    <h1 id="scripts"
+    <h1>Advisor</h1>
+    <div class="gdoc-page__anchorwrap">
+    <h1 id="advisor-recommendations"
     >
-        Scripts
-        <a data-clipboard-text="http://localhost:1313/arthurclares/costbestpractices/tools/tools/#scripts" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Scripts" aria-label="Anchor to: Scripts" href="#scripts">
+        Advisor recommendations
+        <a data-clipboard-text="http://localhost:1313/arthurclares/costbestpractices/azure-resources/advisor/advisor/#advisor-recommendations" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Advisor recommendations" aria-label="Anchor to: Advisor recommendations" href="#advisor-recommendations">
             <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
         </a>
     </h1>
 </div>
-<p>This section lists of all of the information pertaining to the ACORL tooling/scripts. The guidance is broken down into the following sections:</p>
-<ul>
-<li>
-<a href="">Collector</a>
-</li>
-<li>
-<a href="">Analyzer</a>
-</li>
-</ul>
+<p>This query will show all the Advisor recommendations related to cost optimization.</p>
+<div class="gdoc-page__anchorwrap">
+    <h2 id="review-all-cost-related-advisor-recommendations"
+    >
+        Review all cost related Advisor recommendations
+        <a data-clipboard-text="http://localhost:1313/arthurclares/costbestpractices/azure-resources/advisor/advisor/#review-all-cost-related-advisor-recommendations" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Review all cost related Advisor recommendations" aria-label="Anchor to: Review all cost related Advisor recommendations" href="#review-all-cost-related-advisor-recommendations">
+            <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+        </a>
+    </h2>
+</div>
+
+
+
+
+ 
+
+
+
+
+
+
+
+<pre style="background-color: #f4f4f4; font-family: 'Courier New', monospace; color: #333; max-width: 100%; white-space: pre-wrap; word-wrap: break-word; overflow-x: auto;">
+<code class="language-kql">
+advisorresources
+| where type == 'microsoft.advisor/recommendations'
+| where properties.category == 'Cost'
+| project 
+    x_RecommendationId = id,
+    x_ResourceGroupName = tolower(resourceGroup),
+    SubAccountId = subscriptionId,
+    x_RecommendationCategory = tostring(properties.category),
+    x_RecommendationImpact = tostring(properties.impact),
+    x_RecommendationTypeId = tostring(properties.recommendationTypeId),
+    x_RecommendationControl = tostring(properties.extendedProperties.recommendationControl),
+    x_RecommendationMaturityLevel = tostring(properties.extendedProperties.maturityLevel),
+    x_RecommendationDescription = tostring(properties.shortDescription.problem),
+    x_RecommendationSolution = tostring(properties.shortDescription.solution),
+    ResourceId = tolower(properties.resourceMetadata.resourceId),
+    x_ResourceType = tolower(properties.impactedField),
+    ResourceName = tolower(properties.impactedValue),
+    x_RecommendationDetails = tostring(properties.extendedProperties),
+    x_RecommendationDate = tostring(properties.lastUpdated)
+| join kind=leftouter (
+    resourcecontainers
+    | where type == 'microsoft.resources/subscriptions'
+    | project 
+        SubAccountName = name, 
+        SubAccountId = subscriptionId
+) on SubAccountId
+| project-away SubAccountId1
+
+</code>
+</pre>
+
+
+<!-- TO DO
+
+Work on the tables.html shortcut to make it dinamic. 
+
+File Path: .
+ Content: []
+ <p>No data found for file path: recommendations\azure-resources\compute\disks\recommendations</p>
+
+ -->
 
   </article>
 
@@ -1340,6 +1385,9 @@ Collector Analyzer " />
       
 
       
+        
+        
+      
 
       
     
@@ -1365,108 +1413,8 @@ Collector Analyzer " />
       
 
       
-
-      
-
-      
-    
-
-    
-    
-      
-  
-  
-
-  
-    
-    
-
-    
-    
-      
-      
-      
-
-      
         
-      
-      
-
-      
-
-      
-
-      
-    
-
-    
-    
-  
-    
-    
-
-    
-    
-      
-      
-      
-
-      
         
-      
-      
-
-      
-
-      
-
-      
-    
-
-    
-    
-  
-    
-    
-
-    
-    
-      
-      
-      
-
-      
-        
-      
-      
-
-      
-
-      
-
-      
-    
-
-    
-    
-  
-
-    
-  
-    
-    
-
-    
-    
-      
-      
-      
-
-      
-        
-      
-      
-
       
 
       
@@ -1608,7 +1556,52 @@ Collector Analyzer " />
     
     
   
+    
+    
 
+    
+    
+      
+      
+      
+
+      
+        
+      
+      
+
+      
+
+      
+
+      
+    
+
+    
+    
+  
+    
+    
+
+    
+    
+      
+      
+      
+
+      
+        
+      
+      
+
+      
+
+      
+
+      
+    
+
+    
     
   
 
@@ -1659,8 +1652,63 @@ Collector Analyzer " />
       
 
       
+
+      
+    
+
+    
+    
+  
+
+    
+  
+
+    
+  
+    
+    
+
+    
+    
+      
+      
+      
+
+      
         
+      
+      
+
+      
+
+      
+
+      
+    
+
+    
+    
+      
+  
+  
+
+  
+    
+    
+
+    
+    
+      
+      
+      
+
+      
         
+      
+      
+
+      
+
       
 
       

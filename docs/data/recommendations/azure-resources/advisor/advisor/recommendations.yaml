@@ -1,0 +1,16 @@
+- description: "Review Advisor recommendation"
+  acorlGuid: "84a8b25f-0088-44ce-ac35-19e846b055dd"
+  recommendationTypeId: null
+  recommendationControl: "UsageOptimization/Advisor"
+  recommendationImpact: "High"
+  recommendationResourceType: "Microsoft.compute/Advisor"
+  recommendationMetadataState: "Active"
+  remediationAction: "Advisor recommendation"
+  potentialBenefits: "Remove idle resources"
+  pgVerified: true
+  publishedToLearn: false
+  automationAvailable: true
+  tags: null
+  learnMoreLink:
+    - name: "xx"
+      url: "https://aka.ms/finops/toolkit"

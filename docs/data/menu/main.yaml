@@ -8,6 +8,11 @@ main:
   - name: "Azure Services"
     ref: "services"
     sub:
+      - name: "Advisor"
+        ref: "azure-resources/advisor/"
+        sub:
+          - name: "Advisor"
+            ref: "azure-resources/advisor/advisor/"    
       - name: "Compute"
         ref: "azure-resources/compute/"
         sub:

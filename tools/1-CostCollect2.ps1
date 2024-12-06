@@ -12,7 +12,9 @@ Function CostRecommendations {
     $useSubscriptionScope = $null -ne $subscriptionId
 
     # Define the base path for the folder structure
-    $basePath = 'C:\Cost\cost library\costbp\azure-resources\'
+    #$basePath = 'C:\Cost\cost library\costbp\azure-resources\'
+
+    $basePath = 'C:\Cost\Hugo\cost-optimizaiton-resource-library\costbestpractices\costbestpractices\docs\content\azure-resources'
 
     # Get all kql files dynamically, accounting for the new folder structure
     $kqlFiles = Get-ChildItem -Path $basePath -Recurse -Filter *.kql
