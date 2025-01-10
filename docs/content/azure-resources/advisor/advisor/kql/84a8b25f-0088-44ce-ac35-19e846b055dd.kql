@@ -7,6 +7,7 @@ advisorresources
     SubAccountId = subscriptionId,
     x_RecommendationCategory = tostring(properties.category),
     x_RecommendationImpact = tostring(properties.impact),
+    x_RecommendationProvider = 'Azure.Advisor',
     x_RecommendationTypeId = tostring(properties.recommendationTypeId),
     x_RecommendationControl = tostring(properties.extendedProperties.recommendationControl),
     x_RecommendationMaturityLevel = tostring(properties.extendedProperties.maturityLevel),
