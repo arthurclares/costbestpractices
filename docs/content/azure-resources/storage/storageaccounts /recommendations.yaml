@@ -19,20 +19,6 @@
       url: "https://learn.microsoft.com/en-gb/azure/storage/common/storage-account-upgrade?tabs=azure-portal"
 	  
 
-
-ARG:
-
-// Azure Resource Graph Query
-// Find all Azure Storage Accounts, that upgradeable to General purpose v2.
-Resources
-| where type =~ "Microsoft.Storage/storageAccounts" and kind in~ ("Storage", "BlobStorage")
-| extend
-    param1 = strcat("AccountKind: ", case(kind =~ "Storage", "Storage (general purpose v1)", kind =~ "BlobStorage", "BlobStorage", kind)),
-    param2 = strcat("Performance: ", sku.tier),
-    param3 = strcat("Replication: ", sku.name)
-| project recommendationId = "2ad78dec-5a4d-4a30-8fd1-8584335ad781", name, id, tags, param1, param2, param3
-
-
 - description: Determine the right storage account type 
   acorlGuid: 9a3d3258-d1a6-42a3-b33e-2c56cce7ba6c
   recommendationTypeId: null
