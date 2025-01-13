@@ -1,5 +1,5 @@
 - description: Consider upgrading legacy storage accounts to v2 storage accounts
-  acorlGuid: 
+  acorlGuid: 8dfdb9f9-1c25-4866-a102-eda2a25f296e
   recommendationTypeId: null
   recommendationControl: UsageOptimization/OptimizeResources
   recommendationImpact: Low
@@ -34,7 +34,7 @@ Resources
 
 
 - description: Determine the right storage account type 
-  acorlGuid: 
+  acorlGuid: 9a3d3258-d1a6-42a3-b33e-2c56cce7ba6c
   recommendationTypeId: null
   recommendationControl: UsageOptimization/OptimizeResources
   recommendationImpact: Medium
@@ -53,7 +53,7 @@ Resources
 
 
 - description: Consider the correct Storage Redundancy option
-  acorlGuid: 
+  acorlGuid: 37bc9194-5232-481d-bfd5-122714306e50
   recommendationTypeId: null
   recommendationControl: UsageOptimization/OptimizeResources
   recommendationImpact: Medium
