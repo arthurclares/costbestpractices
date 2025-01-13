@@ -1,0 +1,59 @@
+	    
+- description: Determine the Right Blob Storage Tier
+  acorlGuid: 
+  recommendationTypeId: null
+  recommendationControl: UsageOptimization/OptimizeResources
+  recommendationImpact: Medium
+  recommendationResourceType: Microsoft.Storage/Blob
+  recommendationMetadataState: Active
+  remediationAction: |
+    Select the appropriate Blob Storage tier (Hot, Cool, or Archive) based on access frequency and cost.
+  potentialBenefits: Lowest cost
+  pgVerified: false
+  publishedToLearn: false
+  automationAvailable: false
+  tags: null
+  learnMoreLink:
+    - name: Access tiers for blob data
+      url: "https://learn.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview"
+
+	   
+	   
+- description: Optimize costs by automatically managing the data lifecycle
+  acorlGuid: 
+  recommendationTypeId: null
+  recommendationControl: UsageOptimization/OptimizeResources
+  recommendationImpact: Medium
+  recommendationResourceType: Microsoft.Storage/Blob
+  recommendationMetadataState: Active
+  remediationAction: |
+    Enable lifecycle management policies to automatically move data to the appropriate storage tier.
+  potentialBenefits: Lowest cost
+  pgVerified: false
+  publishedToLearn: false
+  automationAvailable: false
+  tags: null
+  learnMoreLink:
+    - name: Lifecycle management policies
+      url: "https://learn.microsoft.com/en-us/azure/storage/blobs/lifecycle-management-overview?tabs=azure-portal"
+
+
+- description: Optimize costs by automatically managing the data lifecycle
+  acorlGuid: 
+  recommendationTypeId: null
+  recommendationControl: UsageOptimization/OptimizeResources
+  recommendationImpact: Medium
+  recommendationResourceType: Microsoft.Storage/Blob
+  recommendationMetadataState: Active
+  remediationAction: |
+    Enable lifecycle management policies to automatically move data to the appropriate storage tier.
+  potentialBenefits: Lowest cost
+  pgVerified: false
+  publishedToLearn: false
+  automationAvailable: false
+  tags: null
+  learnMoreLink:
+    - name: Lifecycle management policies
+      url: "https://learn.microsoft.com/en-us/azure/storage/blobs/lifecycle-management-overview?tabs=azure-portal"
+
+	   
