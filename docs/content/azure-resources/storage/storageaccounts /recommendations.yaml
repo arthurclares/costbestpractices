@@ -16,9 +16,7 @@
     - name: Legacy storage account types
       url: "https://learn.microsoft.com/en-gb/azure/storage/common/storage-account-overview#legacy-storage-account-types"
     - name: Upgrade to a general-purpose v2 storage account
-      url: "https://learn.microsoft.com/en-gb/azure/storage/common/storage-account-upgrade?tabs=azure-portal"
-	  
-
+      url: "https://learn.microsoft.com/en-gb/azure/storage/common/storage-account-upgrade?tabs=azure-portal" 
 - description: Determine the right storage account type 
   acorlGuid: 9a3d3258-d1a6-42a3-b33e-2c56cce7ba6c
   recommendationTypeId: null
@@ -36,8 +34,6 @@
   learnMoreLink:
     - name: Storage account overview
       url: "https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview?toc=%2Fazure%2Fstorage%2Fblobs%2Ftoc.json"
-
-
 - description: Consider the correct Storage Redundancy option
   acorlGuid: 37bc9194-5232-481d-bfd5-122714306e50
   recommendationTypeId: null
