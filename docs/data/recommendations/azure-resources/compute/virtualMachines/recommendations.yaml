@@ -1,8 +1,0 @@
-- description: Virtual machine is powered off but not deallocated
-  recommendationControl: UsageOptimization/OptimizeResources
-  recommendationImpact: Medium
-  recommendationResourceType: Microsoft.containerservice/virtualMachines
-  recommendationMetadataState: Active
-- description: Windows virtual machine is not leveraging Azure Hybrid Benefit
-  recommendationControl: RateOptimization/Licensing
-  recommendationImpact: Medium
