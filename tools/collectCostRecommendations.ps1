@@ -562,7 +562,7 @@ Function CostRecommendations {
             [PSCustomObject]@{
                 Priority     = ($_.x_RecommendationImpact -split ' \| ')[0]
                 ResourceType = ($_.Name -split ' \| ')[1]
-                Count        = $_.Count
+                ImpactedResources        = $_.Count
             }
         }
 
