@@ -1,0 +1,20 @@
+- description: Establish a Tagging Strategy
+  acorlGuid: ff643420-9435-4eb1-9ca3-a85c9d396f2d
+  recommendationTypeId: null
+  recommendationControl: 
+  recommendationImpact: Low
+  recommendationResourceType: Microsoft.Resources/tags
+  recommendationMetadataState: Active
+  remediationAction: |
+    Create a standardized tagging strategy that includes tags like Project, Department, Environment (e.g., dev, test, prod), and Owner. Tags help track costs at a granular level and make reporting easier.
+  potentialBenefits: Cost allocation
+  pgVerified: false
+  publishedToLearn: false
+  automationAvailable: false
+  tags: null
+  learnMoreLink:
+    - name: Define your tagging strategy
+      url: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-tagging"
+    - name: Resource naming and tagging decision guide
+      url: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-naming-and-tagging-decision-guide"
+
