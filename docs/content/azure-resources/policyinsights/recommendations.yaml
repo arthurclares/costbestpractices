@@ -15,3 +15,21 @@
   learnMoreLink:
     - name: Azure Policy overview
       url: "https://learn.microsoft.com/en-us/azure/governance/policy/overview"
+
+- description: Use Azure Policy to Enforce Tags
+  acorlGuid: 4241cf7d-7051-4774-9fa1-85b1976a0677
+  recommendationTypeId: null
+  recommendationControl: 
+  recommendationImpact: Low
+  recommendationResourceType: Microsoft.PolicyInsights
+  recommendationMetadataState: Active
+  remediationAction: |
+    Enforce tagging compliance using Azure Policy, ensuring all resources are tagged appropriately from creation to avoid missing data in cost reporting.
+  potentialBenefits: Governance, Cost allocation
+  pgVerified: false
+  publishedToLearn: false
+  automationAvailable: false
+  tags: null
+  learnMoreLink:
+    - name: Assign policy definitions for tag compliance
+      url: "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-policies"
