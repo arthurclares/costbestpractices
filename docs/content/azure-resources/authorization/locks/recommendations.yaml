@@ -1,0 +1,17 @@
+- description: Use Resource Locks on Critical Resources
+  acorlGuid: be004a44-c027-4205-a14b-52dd3eb3a98e
+  recommendationTypeId: null
+  recommendationControl: 
+  recommendationImpact: Low
+  recommendationResourceType: Microsoft.Authorization/locks
+  recommendationMetadataState: Active
+  remediationAction: |
+    Apply Resource Locks to prevent accidental deletion or modification of critical resources, which can lead to unplanned costs or downtime.
+  potentialBenefits: Compliance
+  pgVerified: false
+  publishedToLearn: false
+  automationAvailable: false
+  tags: null
+  learnMoreLink:
+    - name: Azure Resource Locks overview
+      url: "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources?tabs=json"
