@@ -1,0 +1,17 @@
+- description: Apply Azure Policies to Standardize Resource Usage
+  acorlGuid: 480d3a1a-4b76-4d58-a455-186e6b4c6e0d
+  recommendationTypeId: null
+  recommendationControl: UsageOptimization/OptimizeResources
+  recommendationImpact: Low
+  recommendationResourceType: Microsoft.PolicyInsights
+  recommendationMetadataState: Active
+  remediationAction: |
+    Define Azure Policies at the subscription or management group level to enforce resource configurations, such as requiring specific VM sizes, storage redundancy, or geographic regions, to prevent unnecessary costs.
+  potentialBenefits: Governance, Compliance
+  pgVerified: false
+  publishedToLearn: false
+  automationAvailable: false
+  tags: null
+  learnMoreLink:
+    - name: Azure Policy overview
+      url: "https://learn.microsoft.com/en-us/azure/governance/policy/overview"
