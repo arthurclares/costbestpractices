@@ -1,0 +1,203 @@
+- description: Review Reservation Utilization Regularly
+  acorlGuid: c8be9bc8-9a6a-4e66-9a61-c11d1b54c189
+  recommendationTypeId: null
+  recommendationControl: 
+  recommendationImpact: Low
+  recommendationResourceType: Microsoft/CustomCost
+  recommendationMetadataState: Active
+  remediationAction: |
+    Monitor RI utilization to ensure commitments are fully used. Adjust reservations if usage patterns change significantly. Leverage reservation utilization alerts
+  potentialBenefits: Cost optimization
+  pgVerified: false
+  publishedToLearn: false
+  automationAvailable: false
+  tags: null
+  learnMoreLink:
+    - name: Reservation utilization alerts
+      url: "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/reservation-utilization-alerts"
+
+  - description: Set Budgets and Alerts
+  acorlGuid: c0e099e7-b4fa-4eeb-8d2d-1ba2ace8a628
+  recommendationTypeId: null
+  recommendationControl: 
+  recommendationImpact: Low
+  recommendationResourceType: Microsoft/CustomCost
+  recommendationMetadataState: Active
+  remediationAction: |
+    Use Azure Cost Management + Billing to set budgets at subscription, resource group, or resource levels and set up alerts to notify stakeholders when usage approaches budget limits.
+  potentialBenefits: 
+  pgVerified: false
+  publishedToLearn: false
+  automationAvailable: false
+  tags: null
+  learnMoreLink:
+    - name: Reservation utilization alerts
+      url: "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/reservation-utilization-alerts"
+	  
+ - description: Automate Resource Shutdown and Startup
+  acorlGuid: 039f835e-ce7a-495a-bea6-67bffb7a03ae
+  recommendationTypeId: null
+  recommendationControl: 
+  recommendationImpact: Low
+  recommendationResourceType: Microsoft/CustomCost
+  recommendationMetadataState: Active
+  remediationAction: |
+    Schedule non-critical VMs or services to shut down after hours or during low-use periods. Use Azure Automation or Azure Logic Apps to automatically manage resource shutdowns.
+  potentialBenefits: 
+  pgVerified: false
+  publishedToLearn: false
+  automationAvailable: false
+  tags: null
+  learnMoreLink:
+    - name: Reservation utilization alerts
+      url: "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/reservation-utilization-alerts"
+	  
+ - description: Leverage Azure DevTest Labs for Development Environments
+  acorlGuid: 43f8238b-0404-47a4-b82c-4573571dde02
+  recommendationTypeId: null
+  recommendationControl: 
+  recommendationImpact: Low
+  recommendationResourceType: Microsoft/CustomCost
+  recommendationMetadataState: Active
+  remediationAction: |
+    Use Azure DevTest Labs to automate the provisioning and de-provisioning of resources for development environments, reducing idle time and costs in non-production environments.
+  potentialBenefits: 
+  pgVerified: false
+  publishedToLearn: false
+  automationAvailable: false
+  tags: null
+  learnMoreLink:
+    - name: Azure DevTest Labs overview
+      url: "https://learn.microsoft.com/en-us/azure/devtest-labs/devtest-lab-overview"
+	  
+ - description: Establish FinOps Practices for Cost Visibility
+  acorlGuid: 45fc8c4c-1f94-4fb3-b9a3-41d565f4aac3
+  recommendationTypeId: null
+  recommendationControl: 
+  recommendationImpact: Low
+  recommendationResourceType: Microsoft/CustomCost
+  recommendationMetadataState: Active
+  remediationAction: |
+    Create a cross-functional FinOps team involving finance, engineering, and management to continuously review and optimize costs, ensure accountability, and enforce cost-saving practices.
+  potentialBenefits: Microsoft/CustomCost
+  pgVerified: false
+  publishedToLearn: false
+  automationAvailable: false
+  tags: null
+  learnMoreLink:
+    - name: FinOps overview
+      url: "https://learn.microsoft.com/en-us/cloud-computing/finops/overview"
+	  
+ - description: Proactively perform cost reviews (Regularly Review Billing Reports and Cost Management Insights)
+  acorlGuid: 93ed1fd5-8ab4-4afd-8315-aab0093db580
+  recommendationTypeId: null
+  recommendationControl: 
+  recommendationImpact: Low
+  recommendationResourceType: Microsoft/CustomCost
+  recommendationMetadataState: Active
+  remediationAction: |
+    Use Azure Cost Management + Billing to generate and review cost reports. Look for anomalies, unused resources, and opportunities to optimize.
+  potentialBenefits: Microsoft/CustomCost
+  pgVerified: false
+  publishedToLearn: false
+  automationAvailable: false
+  tags: null
+  learnMoreLink:
+    - name: Get started with Cost Management reporting
+      url: "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/reporting-get-started"
+	  
+ - description: Conduct Periodic Optimization Audits
+  acorlGuid: 1a4c1bdd-eaf8-4ed3-9496-52b2985dc097
+  recommendationTypeId: null
+  recommendationControl: 
+  recommendationImpact: Low
+  recommendationResourceType: Microsoft/CustomCost
+  recommendationMetadataState: Active
+  remediationAction: |
+    Conduct quarterly or semi-annual reviews of your subscription configuration, policies, and cost-saving opportunities. Make adjustments based on any new resources, usage patterns, or Azure service updates.
+  potentialBenefits: Microsoft/CustomCost
+  pgVerified: false
+  publishedToLearn: false
+  automationAvailable: false
+  tags: null
+  learnMoreLink:
+    - name:
+      url: 
+
+ - description: Set Up Azure Monitor Dashboards for Cost Tracking
+  acorlGuid: 6e675ef8-cff3-4a24-876e-c1d16c21ea93
+  recommendationTypeId: null
+  recommendationControl: 
+  recommendationImpact: Low
+  recommendationResourceType: Microsoft/CustomCost
+  recommendationMetadataState: Active
+  remediationAction: |
+    Use Azure Monitor Workbooks, Azure Cost Management dashboards or FinOps Toolkit Dashboard to monitor resource utilization and costs in real-time.
+  potentialBenefits: 
+  pgVerified: false
+  publishedToLearn: false
+  automationAvailable: false
+  tags: null
+  learnMoreLink:
+    - name: Azure Advisor Workbooks
+      url: "https://learn.microsoft.com/en-us/azure/advisor/advisor-workbooks"
+    - name: Azure Advisor Cost Optimization workbook
+      url: "https://learn.microsoft.com/en-us/azure/advisor/advisor-workbook-cost-optimization"
+	  
+ - description: Use Custom Alerts for Anomalous Spending Patterns
+  acorlGuid: 743f2708-a288-4c9a-a68d-3e2c63445339
+  recommendationTypeId: null
+  recommendationControl: 
+  recommendationImpact: Low
+  recommendationResourceType: Microsoft/CustomCost
+  recommendationMetadataState: Active
+  remediationAction: |
+    Set alerts for unusual spikes in spending, such as unexpected data egress, which can help you address misconfigurations or unexpected resource activity.
+  potentialBenefits: 
+  pgVerified: false
+  publishedToLearn: false
+  automationAvailable: false
+  tags: null
+  learnMoreLink:
+    - name: 
+      url: 
+
+      url: 
+
+ - description: Set Up Azure Monitor Dashboards for Cost Tracking
+  acorlGuid: 695b2fd1-e378-40d9-a743-3ce178cc1ba8
+  recommendationTypeId: null
+  recommendationControl: 
+  recommendationImpact: Low
+  recommendationResourceType: Microsoft/CustomCost
+  recommendationMetadataState: Active
+  remediationAction: |
+    Use Azure Monitor Workbooks, Azure Cost Management dashboards or FinOps Toolkit Dashboard to monitor resource utilization and costs in real-time.
+  potentialBenefits: 
+  pgVerified: false
+  publishedToLearn: false
+  automationAvailable: false
+  tags: null
+  learnMoreLink:
+    - name: Azure Advisor Workbooks
+      url: "https://learn.microsoft.com/en-us/azure/advisor/advisor-workbooks"
+    - name: Azure Advisor Cost Optimization workbook
+      url: "https://learn.microsoft.com/en-us/azure/advisor/advisor-workbook-cost-optimization"
+	  
+ - description: Enable Resource Health Checks
+  acorlGuid: d24ab97d-4efe-4e12-96e5-815a9d4bfc4d
+  recommendationTypeId: null
+  recommendationControl: 
+  recommendationImpact: Low
+  recommendationResourceType: Microsoft/CustomCost
+  recommendationMetadataState: Active
+  remediationAction: |
+    Monitor and analyze resource health and usage to ensure that services are functioning optimally and are configured correctly, helping avoid unnecessary costs due to misconfigured or degraded services.
+  potentialBenefits: 
+  pgVerified: false
+  publishedToLearn: false
+  automationAvailable: false
+  tags: null
+  learnMoreLink:
+    - name: 
+      url: 
