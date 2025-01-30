@@ -1,0 +1,17 @@
+- description: Use Management Groups for Hierarchical Organization
+  acorlGuid: 106065c1-b217-4fc5-bae0-1fe6035bdc86
+  recommendationTypeId: null
+  recommendationControl: UsageOptimization/OptimizeResources
+  recommendationImpact: Low
+  recommendationResourceType: Microsoft.management/managementgroups
+  recommendationMetadataState: Active
+  remediationAction: |
+    Organize multiple subscriptions under Management Groups to apply consistent policies and access control across all resources. This enables easy management and enforcement of best practices.
+  potentialBenefits: Governance, Compliance
+  pgVerified: false
+  publishedToLearn: false
+  automationAvailable: false
+  tags: null
+  learnMoreLink:
+    - name: Azure management groups overview
+      url: "https://learn.microsoft.com/en-us/azure/governance/management-groups/overview"
