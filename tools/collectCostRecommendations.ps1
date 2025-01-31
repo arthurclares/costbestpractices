@@ -214,8 +214,6 @@ Function CostRecommendations {
         }
     }
 
-
-
     # Function to process KQL files
     function Process-KQLFiles {
         param (
@@ -230,26 +228,27 @@ Function CostRecommendations {
         $allResources = @()
         $queryErrors = @()
     
+        # Build subscription filter outside parallel block
+        $subscriptionFilter = $null
+        if ($subscriptionIds) {
+            $subscriptionList = $subscriptionIds -split ',' | ForEach-Object { "'$($_.Trim())'" }
+            $subscriptionFilter = $subscriptionList -join ","
+        }
+
         $kqlFiles | ForEach-Object -Parallel {
             $file = $_
-            $subscriptionIds = $using:subscriptionIds
-            $resourceGroupName = $using:resourceGroupName
-    
+            $subscriptionFilter = $using:subscriptionFilter
+            $resourceGroupName = $using:ResourceGroupName
+            
             try {
-                $query = Get-Content -Path $file.FullName -Raw -ErrorAction Stop
+                $query = Get-Content -LiteralPath $file.FullName -Raw -ErrorAction Stop
     
                 # Dynamically append filters to the query based on scope
-                if ($subscriptionIds -and $resourceGroupName) {
-                    # Filter by both subscription ID and resource group name
-                    $subscriptionList = $subscriptionIds -split ',' | ForEach-Object { $_.Trim() }
-                    $subscriptionFilter = $subscriptionList -join "', '"
-                    $query = "$query | where SubAccountId in ('$subscriptionFilter') and x_ResourceGroupName == '$resourceGroupName'"
+                if ($subscriptionFilter -and $resourceGroupName) {
+                    $query = "$query | where SubAccountId in ($subscriptionFilter) and x_ResourceGroupName == '$resourceGroupName'"
                 }
-                elseif ($subscriptionIds) {
-                    # Filter by subscription ID(s)
-                    $subscriptionList = $subscriptionIds -split ',' | ForEach-Object { $_.Trim() }
-                    $subscriptionFilter = $subscriptionList -join "', '"
-                    $query = "$query | where SubAccountId in ('$subscriptionFilter')"
+                elseif ($subscriptionFilter) {
+                    $query = "$query | where SubAccountId in ($subscriptionFilter)"
                 }
     
                 # Execute the query using Azure Resource Graph
@@ -276,7 +275,7 @@ Function CostRecommendations {
                     Error = $errorMessage
                 }
             }
-        } -ThrottleLimit 5 | ForEach-Object {
+        } -ThrottleLimit 5 -AsJob | Receive-Job -Wait -AutoRemoveJob | ForEach-Object {
             if ($_.Error) {
                 $queryErrors += $_
             }
@@ -328,142 +327,149 @@ Function CostRecommendations {
             [string]$ResourceGroupName  # Resource group name to filter by
         )
 
-        # Import the YAML files
-        $yamlFiles = Get-ChildItem -Path $BasePath -Recurse -Filter *.yaml -ErrorAction Stop
-        Write-Log -Message "Found $($yamlFiles.Count) YAML files." -Level "INFO"
+        try {
+            # Import the YAML files
+            $yamlFiles = Get-ChildItem -Path $BasePath -Recurse -Filter *.yaml -ErrorAction Stop
+            Write-Log -Message "Found $($yamlFiles.Count) YAML files." -Level "INFO"
 
-        # Extract unique resource types from YAML files
-        $uniqueResourceTypes = @()
-        foreach ($file in $yamlFiles) {
-            try {
-                # Read the YAML file
-                $yamlContent = Get-Content -Path $file.FullName -Raw -ErrorAction Stop
+            # Build subscription filter outside parallel block
+            $subscriptionFilter = $null
+            if ($SubscriptionIds) {
+                $subscriptionList = $SubscriptionIds -split ',' | ForEach-Object { "'$($_.Trim())'" }
+                $subscriptionFilter = $subscriptionList -join ","
+            }
 
-                # Convert YAML to PowerShell object
-                $yamlObject = $yamlContent | ConvertFrom-Yaml
+            # Extract unique resource types from YAML files
+            $uniqueResourceTypes = @()
+            $yamlFiles | ForEach-Object -Parallel {
+                $file = $_
+                try {
+                    # Read the YAML file
+                    $yamlContent = Get-Content -LiteralPath $file.FullName -Raw -ErrorAction Stop
 
-                # Add the recommendationResourceType to the array
-                if ($yamlObject.recommendationResourceType) {
+                    # Convert YAML to PowerShell object
+                    $yamlObject = $yamlContent | ConvertFrom-Yaml
+
+                    # Add the recommendationResourceType to the array
+                    if ($yamlObject.recommendationResourceType) {
+                        # Split the recommendationResourceType into individual resource types
+                        $resourceTypes = $yamlObject.recommendationResourceType -split ' '
+                        return $resourceTypes
+                    }
+                }
+                catch {
+                    Write-Log -Message "Failed to process YAML file '$($file.FullName)': $_" -Level "ERROR"
+                }
+            } -ThrottleLimit 5 -AsJob | Receive-Job -Wait -AutoRemoveJob | ForEach-Object {
+                $uniqueResourceTypes += $_
+            }
+
+            # Remove duplicates and sort
+            $uniqueResourceTypes = $uniqueResourceTypes | Sort-Object -Unique
+
+            # Debug: Print the unique resource types
+            Write-Host "Unique resource types in YAML files: $($uniqueResourceTypes -join ', ')" -ForegroundColor Cyan
+            Write-Log -Message "Unique resource types in YAML files: $($uniqueResourceTypes -join ', ')" -Level "INFO"
+
+            # Construct the resource type filter
+            $resourceTypeConditions = $uniqueResourceTypes | ForEach-Object { "type == '$_'" }
+            $resourceTypeFilter = $resourceTypeConditions -join ' or '
+
+            # Query Azure Resource Graph for specific resource types
+            $query = "resources | where $resourceTypeFilter"
+            if ($subscriptionFilter -and $ResourceGroupName) {
+                $query += " | where subscriptionId in ($subscriptionFilter) and resourceGroup == '$ResourceGroupName'"
+            }
+            elseif ($subscriptionFilter) {
+                $query += " | where subscriptionId in ($subscriptionFilter)"
+            }
+            $query += " | summarize count() by type"
+
+            Write-Log -Message "Querying Azure Resource Graph for specific resource types." -Level "INFO"
+            Write-Log -Message "Query: $query" -Level "DEBUG"
+            $resourceTypesInScope = Search-AzGraph -Query $query -First 1000
+
+            # Debug: Print the resource types found in scope
+            Write-Host "Resource types found in scope: $($resourceTypesInScope.type -join ', ')" -ForegroundColor Cyan
+            Write-Log -Message "Resource types found in scope: $($resourceTypesInScope.type -join ', ')" -Level "INFO"
+
+            # Initialize an array to store relevant YAML data
+            $yamlData = @()
+
+            # Process each YAML file
+            $yamlFiles | ForEach-Object -Parallel {
+                $file = $_
+                $resourceTypesInScope = $using:resourceTypesInScope
+                
+                try {
+                    # Read the YAML file
+                    $yamlContent = Get-Content -LiteralPath $file.FullName -Raw -ErrorAction Stop
+
+                    # Convert YAML to PowerShell object
+                    $yamlObject = $yamlContent | ConvertFrom-Yaml
+
                     # Split the recommendationResourceType into individual resource types
                     $resourceTypes = $yamlObject.recommendationResourceType -split ' '
-                    $uniqueResourceTypes += $resourceTypes
-                }
-            }
-            catch {
-                Write-Log -Message "Failed to process YAML file '$($file.FullName)': $_" -Level "ERROR"
-            }
-        }
 
-        # Remove duplicates and sort
-        $uniqueResourceTypes = $uniqueResourceTypes | Sort-Object -Unique
-
-        # Debug: Print the unique resource types
-        Write-Host "Unique resource types in YAML files: $($uniqueResourceTypes -join ', ')" -ForegroundColor Cyan
-        Write-Log -Message "Unique resource types in YAML files: $($uniqueResourceTypes -join ', ')" -Level "INFO"
-
-        # Construct the resource type filter
-        $resourceTypeConditions = $uniqueResourceTypes | ForEach-Object { "type == '$_'" }
-        $resourceTypeFilter = $resourceTypeConditions -join ' or '
-
-        # Query Azure Resource Graph for specific resource types
-        if ($SubscriptionIds -and $ResourceGroupName) {
-            # Filter by both subscription ID and resource group name
-            $subscriptionFilter = $SubscriptionIds -split ',' | ForEach-Object { "'$($_.Trim())'" } -join ','
-            $query = "resources | where subscriptionId in ($subscriptionFilter) and resourceGroup == '$ResourceGroupName' | where $resourceTypeFilter | summarize count() by type"
-        }
-        elseif ($SubscriptionIds) {
-            # Filter by subscription ID(s)
-            $subscriptionFilter = $SubscriptionIds -split ',' | ForEach-Object { "'$($_.Trim())'" } -join ','
-            $query = "resources | where subscriptionId in ($subscriptionFilter) | where $resourceTypeFilter | summarize count() by type"
-        }
-        else {
-            # No filters (entire environment)
-            $query = "resources | where $resourceTypeFilter | summarize count() by type"
-        }
-
-        Write-Log -Message "Querying Azure Resource Graph for specific resource types." -Level "INFO"
-        Write-Log -Message "Query: $query" -Level "DEBUG"  # Log the query for debugging
-        $resourceTypesInScope = Search-AzGraph -Query $query -First 1000
-
-        # Debug: Print the resource types found in scope
-        Write-Host "Resource types found in scope: $($resourceTypesInScope.type -join ', ')" -ForegroundColor Cyan
-        Write-Log -Message "Resource types found in scope: $($resourceTypesInScope.type -join ', ')" -Level "INFO"
-
-        # Initialize an array to store relevant YAML data
-        $yamlData = @()
-
-        # Process each YAML file
-        foreach ($file in $yamlFiles) {
-            try {
-                # Read the YAML file
-                $yamlContent = Get-Content -Path $file.FullName -Raw -ErrorAction Stop
-
-                # Convert YAML to PowerShell object
-                $yamlObject = $yamlContent | ConvertFrom-Yaml
-
-                # Debug: Print the recommendationResourceType from the YAML file
-                Write-Host "Checking YAML file '$($file.FullName)' with recommendationResourceType: $($yamlObject.recommendationResourceType)" -ForegroundColor Cyan
-                Write-Log -Message "Checking YAML file '$($file.FullName)' with recommendationResourceType: $($yamlObject.recommendationResourceType)" -Level "DEBUG"
-
-                # Split the recommendationResourceType into individual resource types
-                $resourceTypes = $yamlObject.recommendationResourceType -split ' '
-
-                # Check if any of the resource types exist in scope
-                $matchFound = $false
-                foreach ($resourceType in $resourceTypes) {
-                    if ($resourceType -in $resourceTypesInScope.type) {
-                        Write-Host "Match found for recommendationResourceType: $resourceType" -ForegroundColor Green
-                        Write-Log -Message "Match found for recommendationResourceType: $resourceType" -Level "INFO"
-                        $matchFound = $true
-                        break
+                    # Check if any of the resource types exist in scope
+                    $matchFound = $false
+                    foreach ($resourceType in $resourceTypes) {
+                        if ($resourceType -in $resourceTypesInScope.type) {
+                            $matchFound = $true
+                            break
+                        }
                     }
-                    else {
-                        Write-Host "No match found for recommendationResourceType: $resourceType" -ForegroundColor Yellow
-                        Write-Log -Message "No match found for recommendationResourceType: $resourceType" -Level "DEBUG"
+
+                    # If a match is found, return the YAML object
+                    if ($matchFound) {
+                        return $yamlObject
                     }
                 }
-
-                # If a match is found, add the YAML object to the array
-                if ($matchFound) {
-                    $yamlData += $yamlObject
+                catch {
+                    Write-Log -Message "Failed to process YAML file '$($file.FullName)': $_" -Level "ERROR"
+                }
+            } -ThrottleLimit 5 -AsJob | Receive-Job -Wait -AutoRemoveJob | ForEach-Object {
+                if ($_) {
+                    $yamlData += $_
                 }
             }
-            catch {
-                Write-Log -Message "Failed to process YAML file '$($file.FullName)': $_" -Level "ERROR"
+
+            # Convert YAML data to a format suitable for Excel
+            $excelData = $yamlData | ForEach-Object {
+                [PSCustomObject]@{
+                    Description                 = $_.description
+                    AcorlGuid                   = $_.acorlGuid
+                    RecommendationTypeId        = $_.recommendationTypeId
+                    RecommendationControl       = $_.recommendationControl
+                    RecommendationImpact        = $_.recommendationImpact
+                    RecommendationResourceType  = $_.recommendationResourceType
+                    RecommendationMetadataState = $_.recommendationMetadataState
+                    RemediationAction           = $_.remediationAction
+                    PotentialBenefits           = $_.potentialBenefits
+                    PgVerified                  = $_.pgVerified
+                    PublishedToLearn            = $_.publishedToLearn
+                    AutomationAvailable         = $_.automationAvailable
+                    Tags                        = $_.tags
+                    LearnMoreLink               = ($_.learnMoreLink | ForEach-Object { "$($_.name): $($_.url)" }) -join "; "
+                }
+            }
+
+            # Append YAML data to the Excel file
+            if ($excelData.Count -gt 0) {
+                Write-Log -Message "Appending $($excelData.Count) manual recommendations to the Excel file." -Level "INFO"
+                $excelData | Export-Excel -Path $ExcelFilePath -WorksheetName 'Manual Recommendations' -AutoSize -TableName 'ManualRecommendations' -TableStyle 'Light19'
+            }
+            else {
+                Write-Log -Message "No manual recommendations found to append." -Level "WARNING"
             }
         }
-
-        # Convert YAML data to a format suitable for Excel
-        $excelData = $yamlData | ForEach-Object {
-            [PSCustomObject]@{
-                Description                 = $_.description
-                AcorlGuid                   = $_.acorlGuid
-                RecommendationTypeId        = $_.recommendationTypeId
-                RecommendationControl       = $_.recommendationControl
-                RecommendationImpact        = $_.recommendationImpact
-                RecommendationResourceType  = $_.recommendationResourceType
-                RecommendationMetadataState = $_.recommendationMetadataState
-                RemediationAction           = $_.remediationAction
-                PotentialBenefits           = $_.potentialBenefits
-                PgVerified                  = $_.pgVerified
-                PublishedToLearn            = $_.publishedToLearn
-                AutomationAvailable         = $_.automationAvailable
-                Tags                        = $_.tags
-                LearnMoreLink               = ($_.learnMoreLink | ForEach-Object { "$($_.name): $($_.url)" }) -join "; "
-            }
-        }
-
-        # Append YAML data to the Excel file
-        if ($excelData.Count -gt 0) {
-            Write-Log -Message "Appending $($excelData.Count) manual recommendations to the Excel file." -Level "INFO"
-            $excelData | Export-Excel -Path $ExcelFilePath -WorksheetName 'Manual Recommendations' -AutoSize -TableName 'ManualRecommendations' -TableStyle 'Light19'
-        }
-        else {
-            Write-Log -Message "No manual recommendations found to append." -Level "WARNING"
+        catch {
+            Write-Log -Message "Error in Manual-Validations function: $_" -Level "ERROR"
+            throw
         }
     }
 
-    # Function to export results to Excel
+    # Function to export Assessment results to Excel
     function Export-ResultsToExcel {
         param (
             [array]$AllResources,
@@ -488,12 +494,6 @@ Function CostRecommendations {
         }
     }
 
-
-
-
-
-
-    # Main script execution
     # Main script execution
     try {
         Write-Log -Message "Starting script execution." -Level "INFO"
