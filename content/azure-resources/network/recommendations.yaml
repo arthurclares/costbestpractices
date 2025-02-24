@@ -91,3 +91,22 @@
   learnMoreLink:
     - name: Choosing the right type of alert rule
       url: "https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-types"
+
+- description: Choose Between Microsoft Network and Public Internet
+  acorlGuid: ff44a480-66fb-48bb-ad80-a660fe912c2b
+  recommendationTypeId: null
+  recommendationControl: UsageOptimization/OptimizeResources
+  recommendationImpact: Low
+  recommendationResourceType: Microsoft.Network
+  recommendationMetadataState: Active
+  remediationAction: |
+    Azure routes outbound traffic through the Microsoft global network, offering lower latency and higher reliability. However, for large volumes of outbound traffic, routing through the public internet can be more cost-effective. It's essential to evaluate your application's performance requirements and data transfer costs to determine the most suitable routing option.
+  potentialBenefits: Optimize cost
+  pgVerified: false
+  publishedToLearn: false
+  automationAvailable: false
+  tags: null
+  learnMoreLink:
+    - name: What is routing preference
+      url: "https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/routing-preference-overview"
+      
