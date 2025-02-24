@@ -15,3 +15,21 @@
   learnMoreLink:
     - name: 
       url: "https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-udr-overview"
+
+- description: Use Network Security Groups (NSGs) for Basic Security Needs
+  acorlGuid: 75bd56ec-5b6f-4b28-a4c4-ec98dc050d73
+  recommendationTypeId: null
+  recommendationControl: UsageOptimization/OptimizeResources
+  recommendationImpact: Low
+  recommendationResourceType: Microsoft.Network/networkSecurityGroups
+  recommendationMetadataState: Active
+  remediationAction: |
+    NSGs provide a cost-effective option for controlling inbound and outbound traffic at the subnet or virtual machine level.
+  potentialBenefits: Optimize cost
+  pgVerified: false
+  publishedToLearn: false
+  automationAvailable: false
+  tags: null
+  learnMoreLink:
+    - name: About Network security groups
+      url: "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview"
