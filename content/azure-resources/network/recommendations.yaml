@@ -73,3 +73,21 @@
   learnMoreLink:
     - name: About gateway SKUs
       url: "https://learn.microsoft.com/en-us/azure/vpn-gateway/about-gateway-skus"
+
+- description: Monitor Bandwidth Usage with Azure Monitor
+  acorlGuid: add87d64-9441-44c6-b808-5d586417e365
+  recommendationTypeId: null
+  recommendationControl: UsageOptimization/OptimizeResources
+  recommendationImpact: Low
+  recommendationResourceType: Microsoft.Network
+  recommendationMetadataState: Active
+  remediationAction: |
+    Set up alerts to detect traffic spikes that may indicate increased data transfer costs.
+  potentialBenefits: Optimize cost
+  pgVerified: false
+  publishedToLearn: false
+  automationAvailable: false
+  tags: null
+  learnMoreLink:
+    - name: Choosing the right type of alert rule
+      url: "https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-types"
