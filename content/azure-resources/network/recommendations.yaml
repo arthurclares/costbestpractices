@@ -1,0 +1,58 @@
+
+- description: Analyze Network Traffic Patterns
+  acorlGuid: 23d0c37c-dbfe-4b99-ab17-1f0dcf35e36f
+  recommendationTypeId: null
+  recommendationControl: UsageOptimization/OptimizeResources
+  recommendationImpact: Low
+  recommendationResourceType: Microsoft.Network
+  recommendationMetadataState: Active
+  remediationAction: |
+    Review inbound and outbound traffic patterns using Azure Network Watcher to identify inefficient routing or unnecessary data transfers that may increase costs.
+  potentialBenefits: Optimize cost
+  pgVerified: false
+  publishedToLearn: false
+  automationAvailable: false
+  tags: null
+  learnMoreLink:
+    - name: Overview Azure Network Watcher
+      url: "https://learn.microsoft.com/en-us/azure/network-watcher/network-watcher-overview"
+      
+- description: Minimize Cross-Region Traffic
+  acorlGuid: d68bbda7-1896-4900-89a3-8e619190037b
+  recommendationTypeId: null
+  recommendationControl: UsageOptimization/OptimizeResources
+  recommendationImpact: Low
+  recommendationResourceType: Microsoft.Network
+  recommendationMetadataState: Active
+  remediationAction: |
+    To minimize cross-region data transfer costs, design your applications to keep traffic within the same Azure region whenever possible. Group related resources within the same region to avoid unnecessary data transfer charges.
+  potentialBenefits: Optimize cost
+  pgVerified: false
+  publishedToLearn: false
+  automationAvailable: false
+  tags: null
+  learnMoreLink:
+    - name: 
+      url: "https://learn.microsoft.com/en-us/azure/architecture/networking/#best-practices"
+    - name: 
+      url: "https://learn.microsoft.com/en-us/azure/architecture/networking/guide/spoke-to-spoke-networking"
+
+
+- description: Evaluate VNet Peering vs. ExpressRoute for Inter-Region Connections
+  acorlGuid: 2b2574f8-e392-41d8-8b18-e6cf8e11a905
+  recommendationTypeId: null
+  recommendationControl: UsageOptimization/OptimizeResources
+  recommendationImpact: Low
+  recommendationResourceType: Microsoft.Network
+  recommendationMetadataState: Active
+  remediationAction: |
+    VNet Peering typically provides lower latency and costs for inter-region traffic within Azure. However, for high-volume traffic, ExpressRoute may be a more cost-effective option.
+  potentialBenefits: Optimize cost
+  pgVerified: false
+  publishedToLearn: false
+  automationAvailable: false
+  tags: null
+  learnMoreLink:
+    - name: 
+      url: "https://learn.microsoft.com/en-us/azure/expressroute/virtual-network-connectivity-guidance"
+
