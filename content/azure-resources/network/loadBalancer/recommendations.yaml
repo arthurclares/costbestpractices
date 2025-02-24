@@ -1,0 +1,35 @@
+- description: Migrate from Basic Load Balancer to Standard Load Balancer
+  acorlGuid: f1928415-f734-4108-9f68-2022c1acb0b0
+  recommendationTypeId: null
+  recommendationControl: UsageOptimization/OptimizeResources
+  recommendationImpact: Low
+  recommendationResourceType: Microsoft.Network/loadBalancers
+  recommendationMetadataState: Active
+  remediationAction: |
+    The Basic Load Balancer will be discontinued in September 2025. Migrate to the Standard Load Balancer for advanced features and ongoing support.
+  potentialBenefits: Optimize cost
+  pgVerified: false
+  publishedToLearn: false
+  automationAvailable: false
+  tags: null
+  learnMoreLink:
+    - name: Upgrading from Basic Load Balancer - Guidance
+      url: "https://learn.microsoft.com/en-us/azure/load-balancer/load-balancer-basic-upgrade-guidance"
+      
+- description: Validate Backend Pool Configuration
+  acorlGuid: c6836d0d-9cf6-4cb0-bcfb-8892309e59b3
+  recommendationTypeId: null
+  recommendationControl: UsageOptimization/OptimizeResources
+  recommendationImpact: Low
+  recommendationResourceType: Microsoft.Network/loadBalancers
+  recommendationMetadataState: Active
+  remediationAction: |
+    Ensure backend pool validation for efficient Load Balancer utilization.
+  potentialBenefits: Optimize cost
+  pgVerified: false
+  publishedToLearn: false
+  automationAvailable: false
+  tags: null
+  learnMoreLink:
+    - name: Backend pool management
+      url: "https://learn.microsoft.com/en-us/azure/load-balancer/backend-pool-management"
