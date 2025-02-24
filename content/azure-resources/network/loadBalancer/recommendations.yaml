@@ -33,3 +33,22 @@
   learnMoreLink:
     - name: Backend pool management
       url: "https://learn.microsoft.com/en-us/azure/load-balancer/backend-pool-management"
+
+- description: Microsoft Azure load balancers enable dynamic scaling based on application demand
+  acorlGuid: fcd8fef4-4c24-4563-af00-2391630b00c6
+  recommendationTypeId: null
+  recommendationControl: UsageOptimization/OptimizeResources
+  recommendationImpact: Low
+  recommendationResourceType: Microsoft.Network/loadBalancer
+  recommendationMetadataState: Active
+  remediationAction: |
+    The dynamic scaling ensures that resources are efficiently allocated, reducing unnecessary expenditures during periods of low demand and maintaining performance during peak usage.
+  potentialBenefits: Optimize cost
+  pgVerified: false
+  publishedToLearn: false
+  automationAvailable: false
+  tags: null
+  learnMoreLink:
+    - name: Guidance for Virtual Machine Scale Sets with Azure Load Balancer
+      url: "https://learn.microsoft.com/en-us/azure/load-balancer/load-balancer-standard-virtual-machine-scale-sets"
+      
