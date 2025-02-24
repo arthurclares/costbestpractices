@@ -56,3 +56,20 @@
     - name: 
       url: "https://learn.microsoft.com/en-us/azure/expressroute/virtual-network-connectivity-guidance"
 
+- description: Utilize Basic SKUs for Test Environments
+  acorlGuid: 8a6cea3d-3973-4076-b030-e561f5073946
+  recommendationTypeId: null
+  recommendationControl: UsageOptimization/OptimizeResources
+  recommendationImpact: Low
+  recommendationResourceType: Microsoft/Network
+  recommendationMetadataState: Active
+  remediationAction: |
+    Use the Basic SKU for non-production environments, such as development or testing, where high availability and advanced features are not required. Therefore, for non-production environments, while Basic SKUs can be utilized, ensure that the specific resources you plan to use are not slated for retirement and that their feature limitations align with your testing or development needs.
+  potentialBenefits: Optimize cost
+  pgVerified: false
+  publishedToLearn: false
+  automationAvailable: false
+  tags: null
+  learnMoreLink:
+    - name: About gateway SKUs
+      url: "https://learn.microsoft.com/en-us/azure/vpn-gateway/about-gateway-skus"
