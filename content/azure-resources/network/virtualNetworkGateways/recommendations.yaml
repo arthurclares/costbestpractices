@@ -1,0 +1,19 @@
+- description: Right-Size Network Gateways
+  acorlGuid: fd1d7585-5edb-41f3-81e2-8d1eea419b3b
+  recommendationTypeId: null
+  recommendationControl: UsageOptimization/OptimizeResources
+  recommendationImpact: Low
+  recommendationResourceType: Microsoft.Network/virtualNetworkGateways
+  recommendationMetadataState: Active
+  remediationAction: |
+    Configure VPN gateways with appropriate SKU sizes that align with your traffic needs. Avoid over-provisioning to prevent unnecessary costs while ensuring scalability.
+  potentialBenefits: Optimize cost
+  pgVerified: false
+  publishedToLearn: false
+  automationAvailable: false
+  tags: null
+  learnMoreLink:
+    - name: Azure VPN Gateway
+      url: "https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways"
+    - name: About gateway SKUs
+      url: "https://learn.microsoft.com/en-us/azure/vpn-gateway/about-gateway-skus"
