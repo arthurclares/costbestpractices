@@ -7,7 +7,7 @@
   recommendationMetadataState: Active
   remediationAction: |
     The Basic Load Balancer will be discontinued in September 2025. Migrate to the Standard Load Balancer for advanced features and ongoing support.
-  potentialBenefits: Optimize cost
+  potentialBenefits: Advanced features
   pgVerified: false
   publishedToLearn: false
   automationAvailable: false
@@ -25,7 +25,7 @@
   recommendationMetadataState: Active
   remediationAction: |
     Ensure backend pool validation for efficient Load Balancer utilization.
-  potentialBenefits: Optimize cost
+  potentialBenefits: Efficient utilization
   pgVerified: false
   publishedToLearn: false
   automationAvailable: false
