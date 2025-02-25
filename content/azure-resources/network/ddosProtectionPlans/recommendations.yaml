@@ -7,7 +7,7 @@
   recommendationMetadataState: Active
   remediationAction: |
     While all Azure services include free basic DDoS protection, mission-critical applications can benefit from the enhanced features of the Azure DDoS Protection Plan (Standard). This premium service offers advanced mitigation capabilities, including always-on traffic monitoring, adaptive real-time tuning, and detailed attack analytics, which are essential for protecting high-priority workloads.
-  potentialBenefits: Optimize cost
+  potentialBenefits: Targeted protection
   pgVerified: false
   publishedToLearn: false
   automationAvailable: false
