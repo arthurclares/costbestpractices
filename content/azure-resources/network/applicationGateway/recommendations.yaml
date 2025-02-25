@@ -24,7 +24,7 @@
   recommendationResourceType: Microsoft.Network/applicationGateways
   recommendationMetadataState: Active
   remediationAction: |
-    Optimize resource allocation based on traffic demand. With autoscaling enabled, the Application Gateway and WAF v2 SKUs scale out or in based on application traffic requirements. T
+    Optimize resource allocation based on traffic demand. With autoscaling enabled, the Application Gateway and WAF v2 SKUs scale out or in based on application traffic requirements.
   potentialBenefits: Optimize cost
   pgVerified: false
   publishedToLearn: false
