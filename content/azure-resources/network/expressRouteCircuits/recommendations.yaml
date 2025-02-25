@@ -7,7 +7,7 @@
   recommendationMetadataState: Active
   remediationAction: |
     Azure ExpressRoute provides a private, dedicated network connection between on-premises infrastructure and Azure, offering enhanced reliability, speed, and security compared to public internet connections. 
-  potentialBenefits: Optimize cost
+  potentialBenefits: Enhance reliability
   pgVerified: false
   publishedToLearn: false
   automationAvailable: false
