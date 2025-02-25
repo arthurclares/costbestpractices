@@ -6,7 +6,7 @@
   recommendationResourceType: Microsoft.Cdn/profiles
   recommendationMetadataState: Active
   remediationAction: |
-    For content-heavy applications, use Azure CDN to cache content closer to users, reducing repeated data transfers from origin servers, lowering egress costs, and improving application performance
+    For content-heavy applications, use Azure CDN to cache content closer to users, reducing repeated data transfers from origin servers, lowering egress costs, and improving application performance. Implementing Azure CDN can significantly enhance user experience by reducing latency and load times.
   potentialBenefits: Optimize cost
   pgVerified: false
   publishedToLearn: false
