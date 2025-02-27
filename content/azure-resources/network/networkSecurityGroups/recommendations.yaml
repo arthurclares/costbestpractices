@@ -7,7 +7,7 @@
   recommendationMetadataState: Active
   remediationAction: |
     By leveraging custom route tables, you can direct traffic through specific paths, such as Network Virtual Appliances (NVAs), ensuring efficient routing and control over data flow. NSGs allow you to define security rules to permit or deny traffic to and from your resources, enhancing security by controlling access.
-  potentialBenefits: Optimize cost
+  potentialBenefits: Efficient routing
   pgVerified: false
   publishedToLearn: false
   automationAvailable: false
