@@ -27,7 +27,7 @@
   recommendationMetadataState: Active
   remediationAction: |
     To enhance scalability in development environments, consider selecting an appropriate Virtual Network Gateway SKU that aligns with your anticipated traffic demands. For instance, higher-tier SKUs allocate more CPUs and network bandwidth, supporting increased network throughput. This flexibility allows you to start with a lower-capacity gateway in development and scale up as needed. 
-  potentialBenefits: Optimize cost
+  potentialBenefits: Improve scalability
   pgVerified: false
   publishedToLearn: false
   automationAvailable: false
