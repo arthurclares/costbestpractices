@@ -7,7 +7,7 @@
   recommendationMetadataState: Active
   remediationAction: |
     Leverage Azure Policy to deny the network interfaces which are configured with any public IP. Public IP addresses allow internet resources to communicate inbound to Azure resources, and Azure resources to communicate outbound to the internet. This should be reviewed by the network security team.
-  potentialBenefits: Optimize cost
+  potentialBenefits: Enhance security
   pgVerified: false
   publishedToLearn: false
   automationAvailable: false
