@@ -61,7 +61,7 @@
   recommendationTypeId: null
   recommendationControl: UsageOptimization/OptimizeResources
   recommendationImpact: Low
-  recommendationResourceType: Microsoft/Network
+  recommendationResourceType: Microsoft.Network
   recommendationMetadataState: Active
   remediationAction: |
     Use the Basic SKU for non-production environments, such as development or testing, where high availability and advanced features are not required. Therefore, for non-production environments, while Basic SKUs can be utilized, ensure that the specific resources you plan to use are not slated for retirement and that their feature limitations align with your testing or development needs.
