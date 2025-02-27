@@ -1,71 +1,94 @@
-- description: Determine if your workload needs Azure Premium SSD performance or if Azure Standard HDD storage is enough
-  acorlGuid: c065d74b-d117-4851-b525-b7c4ebd0a4a3
+- description: Choose the right disk types for your workloads
+  acorlGuid: 
   recommendationTypeId: null
   recommendationControl: UsageOptimization/OptimizeResources
   recommendationImpact: Low
-  recommendationResourceType: Microsoft.Compute/disks
+  recommendationResourceType: 
   recommendationMetadataState: Active
   remediationAction: |
-    If you need high IOPS, fast data transfer speeds, or low latency, opt for premium Azure file shares. Note that NFS Azure file shares are only available on the premium tier, and NFS and SMB file shares cost the same on this tier.
+    Before deploying your environment, understand the available disk types and their features. Use the Azure Pricing Calculator to estimate costs. For instance, Azure Premium SSD v2 allows you to fine-tune performance independently of disk size, helping optimize both cost and efficiency.
   potentialBenefits: Optimize cost
   pgVerified: false
   publishedToLearn: false
   automationAvailable: false
   tags: null
   learnMoreLink:
-    - name: Understand and optimize Azure file share performance 
-      url: "https://learn.microsoft.com/en-us/azure/storage/files/understand-performance"
+    - name: Azure managed disk types
+      url: "https://learn.microsoft.com/en-us/azure/virtual-machines/disks-types"
 	  
-- description: If using premium shares, provision enough capacity and performance for your workload without incurring unnecessary costs
-  acorlGuid: 9ec1f442-ca32-4cb2-aa8d-c11de74a323b
+- description: Leverage reserved capacity for Premium SSDs 
+  acorlGuid: 
   recommendationTypeId: null
   recommendationControl: UsageOptimization/OptimizeResources
   recommendationImpact: Low
-  recommendationResourceType: Microsoft.Compute/disks
+  recommendationResourceType: 
   recommendationMetadataState: Active
   remediationAction: |
-    We recommend overprovisioning by two to three times. You can dynamically scale premium file shares up or down depending on your storage and input/output (IO) performance characteristics.
+    Prepaying for reserved capacity can significantly reduce the total cost of your environment by offering discounts on Premium SSD storage.
   potentialBenefits: Optimize cost
   pgVerified: false
   publishedToLearn: false
   automationAvailable: false
   tags: null
   learnMoreLink:
-    - name: Architecture best practices for Azure Files
-      url: "https://learn.microsoft.com/en-us/azure/well-architected/service-guides/azure-files#design-checklist-1"
+    - name: Reduce costs with Azure Disks Reservation
+      url: "https://learn.microsoft.com/en-us/azure/virtual-machines/disks-reserved-capacity"
 	  
-- description: Choose the most cost-effective access tier
-  acorlGuid: f0cd22ef-af24-44cf-b81b-aec73a27295c
+
+
+- description: Dynamically adjust performance for Ultra Disk Storage and Premium SSD v2
+  acorlGuid: 
   recommendationTypeId: null
   recommendationControl: UsageOptimization/OptimizeResources
   recommendationImpact: Low
-  recommendationResourceType: Microsoft.Compute/disks
+  recommendationResourceType: 
   recommendationMetadataState: Active
   remediationAction: |
-    Standard SMB Azure file shares offer three access tiers: transaction optimized, hot, and cool. All three tiers are stored on the same standard storage hardware. The main difference for these three tiers is their data at rest storage prices, which are lower in cooler tiers, and the transaction prices, which are higher in cooler tiers
+    These disk types allow performance adjustments a limited number of times within a 24-hour period. By scaling performance up during high demand (increasing cost) and down when demand decreases (reducing cost), you can optimize both performance and spending.
   potentialBenefits: Optimize cost
   pgVerified: false
   publishedToLearn: false
   automationAvailable: false
   tags: null
   learnMoreLink:
-    - name: Understand Azure Files billing models
-      url: "https://learn.microsoft.com/en-us/azure/storage/files/understanding-billing#differences-in-standard-tiers"
+    - name: Using Azure Ultra Disks
+      url: "https://learn.microsoft.com/en-us/azure/virtual-machines/disks-enable-ultra-ssd?tabs=azure-portal"
+    - name: Deploy Premium SSD v2 
+      url: "https://learn.microsoft.com/en-us/azure/virtual-machines/disks-deploy-premium-v2?tabs=azure-cli"
 	  
-- description: Set retention periods for the soft-delete feature
-  acorlGuid: b92dc04e-8464-4352-aba6-205ff0240e2f
+	  
+- description: Resize oversized disks to the minimum required size for the workload to optimize storage allocation
+  acorlGuid: 
   recommendationTypeId: null
   recommendationControl: UsageOptimization/OptimizeResources
   recommendationImpact: Low
-  recommendationResourceType: Microsoft.Compute/disks
+  recommendationResourceType: 
   recommendationMetadataState: Active
   remediationAction: |
-    Start with a short retention period to understand its billing impact. The minimum recommended period is seven days. Soft-deleted standard and premium file shares are billed as used capacity. Premium file shares are billed at the snapshot rate, while standard file shares are billed at the regular rate during the soft-delete state.
+    Managed Disks cannot be shrunk, but they can be expanded if needed. To downsize, you need to create a new smaller disk and migrate data.
   potentialBenefits: Optimize cost
   pgVerified: false
   publishedToLearn: false
   automationAvailable: false
   tags: null
   learnMoreLink:
-    - name: How to enable soft delete on Azure file shares
-      url: "https://learn.microsoft.com/en-us/azure/storage/files/storage-files-enable-soft-delete?tabs=azure-portal"
+    - name: Decrease the size of an Azure data disk without losing data
+      url: "https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-machines/windows/downsize-data-disk-without-losing-data?tabs=windows"
+	  
+- description: Consider using Ephemeral OS Disks for stateless workloads where OS persistence isn’t required
+  acorlGuid: 
+  recommendationTypeId: null
+  recommendationControl: UsageOptimization/OptimizeResources
+  recommendationImpact: Low
+  recommendationResourceType: 
+  recommendationMetadataState: Active
+  remediationAction: |
+    Ephemeral OS Disks offer temporary storage at no cost, ideal for auto-scaling environments (e.g., VM Scale Sets), dev/test workloads and stateless applications.
+  potentialBenefits: Optimize cost
+  pgVerified: false
+  publishedToLearn: false
+  automationAvailable: false
+  tags: null
+  learnMoreLink:
+    - name: Ephemeral OS disks for Azure VMs
+      url: "https://learn.microsoft.com/en-us/azure/virtual-machines/ephemeral-os-disks"
