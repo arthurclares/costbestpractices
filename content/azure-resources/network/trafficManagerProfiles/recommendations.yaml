@@ -7,7 +7,7 @@
   recommendationMetadataState: Active
   remediationAction: |
     Azure Traffic Manager's geographic routing method allows you to direct user traffic based on the source IP address's geographic location, enabling you to serve users from the nearest endpoint, thereby reducing latency and minimizing unnecessary cross-region traffic. 
-  potentialBenefits: Optimize cost
+  potentialBenefits: Reduce latency
   pgVerified: false
   publishedToLearn: false
   automationAvailable: false
