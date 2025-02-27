@@ -1,0 +1,26 @@
+name: Zip on Approved PR
+
+on:
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  zip-job:
+    # Only run if the review was approved and the PR targets 'target-branch'
+    if: ${{ github.event.review.state == 'approved' && github.event.pull_request.base.ref == 'dev' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Zip azure-resources directory
+        run: |
+          zip -r azure-resources.zip content/azure-resources
+          ls -la
+
+      - name: Upload zipped artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: azure-resources
+          path: myfile.zip
