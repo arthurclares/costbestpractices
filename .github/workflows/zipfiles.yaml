@@ -5,22 +5,34 @@ on:
     types: [closed]
 
 jobs:
-  zip-job:
-    if: ${{ github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'Dev' }}
+  zip-and-commit:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write   # Required to commit/push changes
+
     steps:
-      - name: Checkout repository
+      - name: Check out code
         uses: actions/checkout@v3
 
-      - name: Zip azure-resources directory
+      - name: Zip the azure-resources folder
         run: |
           zip -r azure-resources.zip content/azure-resources
-          ls -la
+          # Move the zip into content folder, overwriting old if present
+          mv azure-resources.zip content/azure-resources.zip
 
-      - name: Upload zipped artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: azure-resources-zip
-          path: azure-resources.zip
-          overwrite: true
+      - name: Configure git
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+      - name: Commit changes
+        run: |
+          # Only commit if there are changes
+          git add content/azure-resources.zip
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Update azure-resources.zip"
+            git push
+          fi
