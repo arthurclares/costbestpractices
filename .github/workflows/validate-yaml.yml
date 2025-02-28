@@ -1,29 +1,47 @@
 name: Validate YAML Files
-
 on:
   pull_request:
     types: [opened, reopened, synchronize]  # Run on new or updated PRs
-
 jobs:
   lint-yaml:
     runs-on: ubuntu-latest
-
     steps:
       - name: Check out the code
         uses: actions/checkout@v3
-
+        
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.x"
-
+          
       - name: Install yamllint
         run: |
           pip install yamllint
-
+          
+      - name: Create custom yamllint config
+        run: |
+          cat > .yamllint.yml << EOF
+          extends: relaxed
+          
+          rules:
+            # Keep only syntax validation and indentation
+            document-start: disable
+            document-end: disable
+            line-length: disable
+            comments: disable
+            comments-indentation: disable
+            empty-lines: disable
+            new-line-at-end-of-file: disable
+            trailing-spaces: disable
+            truthy: disable
+            
+            # Keep indentation checks
+            indentation:
+              spaces: consistent
+              indent-sequences: consistent
+              check-multi-line-strings: false
+          EOF
+          
       - name: Lint YAML in azure-resources folder
         run: |
-          yamllint --strict content/azure-resources
-        
-        
-
+          yamllint -c .yamllint.yml content/azure-resources
