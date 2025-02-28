@@ -1,0 +1,41 @@
+name: Zip on Merged PR to Dev
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - Dev  # Specifically targeting the Dev branch
+
+jobs:
+  zip-and-commit:
+    # Only run if the PR was merged (not just closed)
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # Required to commit/push changes
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          ref: Dev  # Explicitly checkout the Dev branch
+          fetch-depth: 0  # Fetch all history for proper pushing
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+      - name: Zip the azure-resources folder
+        run: |
+          zip -r azure-resources.zip content/azure-resources
+          # Move the zip into content folder, overwriting old if present
+          mv azure-resources.zip content/azure-resources.zip
+
+      - name: Commit and push changes
+        run: |
+          git add content/azure-resources.zip
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Update azure-resources.zip in Dev following PR #${{ github.event.pull_request.number }}"
+            git push origin Dev
+          fi

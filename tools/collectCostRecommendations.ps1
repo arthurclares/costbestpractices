@@ -67,9 +67,6 @@ Function CostRecommendations {
             throw
         }
     }
-
-
-
     
     # Function to download a GitHub folder and its contents
     function Download-GitHubFolder {
@@ -240,6 +237,18 @@ Function CostRecommendations {
             $subscriptionFilter = $using:subscriptionFilter
             $resourceGroupName = $using:ResourceGroupName
             
+            # Create a local function for logging within the parallel block
+            function Write-ParallelLog {
+                param (
+                    [string]$Message,
+                    [string]$Level = "INFO"
+                )
+                $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+                $logMessage = "$timestamp [$Level] $Message"
+                $logFile = $using:logFile
+                Add-Content -Path $logFile -Value $logMessage -ErrorAction SilentlyContinue
+            }
+            
             try {
                 $query = Get-Content -LiteralPath $file.FullName -Raw -ErrorAction Stop
     
@@ -263,6 +272,7 @@ Function CostRecommendations {
                 }
                 catch {
                     $errorMessage = "Query failed for file '$($file.FullName)': $($_.Exception.Message)"
+                    Write-ParallelLog -Message $errorMessage -Level "ERROR"
                     return @{ 
                         Error = $errorMessage
                         Query = $query
@@ -271,6 +281,7 @@ Function CostRecommendations {
             }
             catch {
                 $errorMessage = "An error occurred while processing file '$($file.FullName)': $_"
+                Write-ParallelLog -Message $errorMessage -Level "ERROR"
                 return @{
                     Error = $errorMessage
                 }
@@ -318,6 +329,73 @@ Function CostRecommendations {
         }
     }
 
+# Function to process CustomCost folder YAML files without ARG validation
+function Process-CustomCostRecommendations {
+    param (
+        [string]$BasePath # Path to the root folder containing CustomCost
+    )
+    
+    # Define possible CustomCost folder paths
+    $customCostPath = Join-Path $BasePath "CustomCost"
+    $nestedCustomCostPath = Join-Path $BasePath "azure-resources\CustomCost"
+    
+    # Check if CustomCost folder exists at either location
+    $foundPath = $null
+    if (Test-Path -Path $customCostPath) {
+        $foundPath = $customCostPath
+        Write-Log -Message "Found CustomCost folder at: $customCostPath" -Level "INFO"
+    } 
+    elseif (Test-Path -Path $nestedCustomCostPath) {
+        $foundPath = $nestedCustomCostPath
+        Write-Log -Message "Found CustomCost folder at: $nestedCustomCostPath" -Level "INFO"
+    }
+    else {
+        Write-Log -Message "CustomCost folder not found at: $customCostPath or $nestedCustomCostPath" -Level "WARNING"
+        return @()
+    }
+    
+    # Find all YAML files in the CustomCost folder
+    $yamlFiles = Get-ChildItem -Path $foundPath -Filter *.yaml -ErrorAction Stop
+    if ($yamlFiles.Count -eq 0) {
+        Write-Log -Message "No YAML files found in CustomCost folder." -Level "WARNING"
+        return @()
+    }
+    
+    Write-Log -Message "Found $($yamlFiles.Count) YAML files in CustomCost folder." -Level "INFO"
+    Write-Host "Found $($yamlFiles.Count) YAML files in CustomCost folder." -ForegroundColor Cyan
+    
+    # Initialize an array to store CustomCost recommendations
+    $customCostData = @()
+    
+    foreach ($file in $yamlFiles) {
+        try {
+            # Read the YAML file content
+            $yamlContent = Get-Content -LiteralPath $file.FullName -Raw -ErrorAction Stop
+            
+            # Convert YAML to PowerShell object(s)
+            try {
+                $yamlObjects = $yamlContent | ConvertFrom-Yaml
+                
+                # Process each YAML object
+                foreach ($yamlObject in @($yamlObjects)) {
+                    $customCostData += $yamlObject
+                }
+                
+                Write-Log -Message "Successfully processed CustomCost file: $($file.Name)" -Level "INFO"
+            }
+            catch {
+                Write-Log -Message "Failed to parse YAML file '$($file.FullName)': $_" -Level "ERROR"
+            }
+        }
+        catch {
+            Write-Log -Message "Failed to read CustomCost file '$($file.FullName)': $_" -Level "ERROR"
+        }
+    }
+    
+    Write-Log -Message "Processed $($customCostData.Count) CustomCost recommendations." -Level "INFO"
+    return $customCostData
+}
+
     # Function to process YAML files and append them to the Excel file
     function Manual-Validations {
         param (
@@ -328,9 +406,13 @@ Function CostRecommendations {
         )
 
         try {
-            # Import the YAML files
-            $yamlFiles = Get-ChildItem -Path $BasePath -Recurse -Filter *.yaml -ErrorAction Stop
-            Write-Log -Message "Found $($yamlFiles.Count) YAML files." -Level "INFO"
+            # Get CustomCost recommendations first (no validation needed)
+            $customCostRecommendations = Process-CustomCostRecommendations -BasePath $BasePath
+            Write-Log -Message "Found $($customCostRecommendations.Count) CustomCost recommendations." -Level "INFO"
+            
+            # Import the YAML files (excluding CustomCost folder)
+            $yamlFiles = Get-ChildItem -Path $BasePath -Recurse -Exclude "CustomCost" -Filter *.yaml -ErrorAction Stop
+            Write-Log -Message "Found $($yamlFiles.Count) YAML files for validation." -Level "INFO"
 
             # Build subscription filter outside parallel block
             $subscriptionFilter = $null
@@ -343,6 +425,19 @@ Function CostRecommendations {
             $uniqueResourceTypes = @()
             $yamlFiles | ForEach-Object -Parallel {
                 $file = $_
+                $logFile = $using:logFile
+                
+                # Create a local function for logging within the parallel block
+                function Write-ParallelLog {
+                    param (
+                        [string]$Message,
+                        [string]$Level = "INFO"
+                    )
+                    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+                    $logMessage = "$timestamp [$Level] $Message"
+                    Add-Content -Path $logFile -Value $logMessage -ErrorAction SilentlyContinue
+                }
+                
                 try {
                     # Read the YAML file
                     $yamlContent = Get-Content -LiteralPath $file.FullName -Raw -ErrorAction Stop
@@ -358,7 +453,7 @@ Function CostRecommendations {
                     }
                 }
                 catch {
-                    Write-Log -Message "Failed to process YAML file '$($file.FullName)': $_" -Level "ERROR"
+                    Write-ParallelLog -Message "Failed to process YAML file '$($file.FullName)': $_" -Level "ERROR"
                 }
             } -ThrottleLimit 5 -AsJob | Receive-Job -Wait -AutoRemoveJob | ForEach-Object {
                 $uniqueResourceTypes += $_
@@ -400,6 +495,18 @@ Function CostRecommendations {
             $yamlFiles | ForEach-Object -Parallel {
                 $file = $_
                 $resourceTypesInScope = $using:resourceTypesInScope
+                $logFile = $using:logFile
+                
+                # Create a local function for logging within the parallel block
+                function Write-ParallelLog {
+                    param (
+                        [string]$Message,
+                        [string]$Level = "INFO"
+                    )
+                    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+                    $logMessage = "$timestamp [$Level] $Message"
+                    Add-Content -Path $logFile -Value $logMessage -ErrorAction SilentlyContinue
+                }
                 
                 try {
                     # Read the YAML file
@@ -426,7 +533,7 @@ Function CostRecommendations {
                     }
                 }
                 catch {
-                    Write-Log -Message "Failed to process YAML file '$($file.FullName)': $_" -Level "ERROR"
+                    Write-ParallelLog -Message "Failed to process YAML file '$($file.FullName)': $_" -Level "ERROR"
                 }
             } -ThrottleLimit 5 -AsJob | Receive-Job -Wait -AutoRemoveJob | ForEach-Object {
                 if ($_) {
@@ -434,8 +541,11 @@ Function CostRecommendations {
                 }
             }
 
+            # Combine validated recommendations with CustomCost recommendations
+            $combinedData = $yamlData + $customCostRecommendations
+            
             # Convert YAML data to a format suitable for Excel
-            $excelData = $yamlData | ForEach-Object {
+            $excelData = $combinedData | ForEach-Object {
                 [PSCustomObject]@{
                     Description                 = $_.description
                     AcorlGuid                   = $_.acorlGuid
@@ -505,7 +615,7 @@ Function CostRecommendations {
         Write-Log -Message "Set working directory to: $workingFolderPath" -Level "INFO"
 
         # Hardcoded GitHub repository folder URL
-        $repoUrl = "https://github.com/arthurclares/costbestpractices/raw/refs/heads/main/content/azure-resources.zip"
+        $repoUrl = "https://github.com/arthurclares/costbestpractices/raw/refs/heads/Dev/content/azure-resources.zip"
         
         # Define the destination directory (ensure it ends with "/azure-resources/")
         $tempDir = Join-Path $workingFolderPath "Temp\azure-resources"
@@ -548,6 +658,7 @@ Function CostRecommendations {
         }
         else {
             Write-Log -Message "Skipping manual checks as per user request." -Level "INFO"
+            # No processing of CustomCost recommendations when manual checks are skipped
         }
 
         # Process KQL files
@@ -589,8 +700,6 @@ Function CostRecommendations {
     catch {
         Write-Log -Message "An error occurred: $_" -Level "ERROR"
     }
-
-
 }
 
 # Execute the main function
