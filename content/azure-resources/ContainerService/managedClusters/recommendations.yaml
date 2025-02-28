@@ -42,7 +42,8 @@
   recommendationResourceType: Microsoft.ContainerService/managedClusters
   recommendationMetadataState: Active
   remediationAction: |
-    Reduce costs by stopping unused dev/test clusters with the cluster start/stop feature. It shuts down node pools while preserving cluster state, eliminating unnecessary compute charges.  potentialBenefits: Optimize existing resources
+    Reduce costs by stopping unused dev/test clusters with the cluster start/stop feature. It shuts down node pools while preserving cluster state, eliminating unnecessary compute charges.
+  potentialBenefits: Optimize existing resources
   pgVerified: false
   publishedToLearn: false
   automationAvailable: false
