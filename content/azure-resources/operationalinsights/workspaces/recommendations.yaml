@@ -15,8 +15,7 @@
   learnMoreLink:
     - name: Data collection rules (DCRs) in Azure Monitor
       url: "https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/data-collection-rule-overview"
-	  
-	  
+
 - description: Optimize Log Diagnostic Settings
   acorlGuid: 1f778b08-747a-4ba7-bc7e-1ae17629b2cd
   recommendationTypeId: null
@@ -34,7 +33,7 @@
   learnMoreLink:
     - name: Diagnostic settings in Azure Monitor
       url: "https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/diagnostic-settings"
-	  
+
 - description: Adjust Collection Frequency
   acorlGuid: 8525badd-41a9-457d-83c6-a14930e30e2a
   recommendationTypeId: null
@@ -52,8 +51,7 @@
   learnMoreLink:
     - name: Azure Monitor best practices: Configure data collection
       url: "https://learn.microsoft.com/en-us/azure/azure-monitor/best-practices-data-collection"
-	  
-	  
+
 - description: Leverage VM Insights Wisely
   acorlGuid: 067613a2-e98b-43f6-be3c-55c157fb188a
   recommendationTypeId: null
@@ -71,7 +69,7 @@
   learnMoreLink:
     - name: VM Insights Overview
       url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/vminsights-overview"
-	  
+
 - description: Use Azure Policies for Automation
   acorlGuid: 0111448b-8e0c-46a1-b4df-84289f5de528
   recommendationTypeId: null
@@ -89,8 +87,7 @@
   learnMoreLink:
     - name: Azure Policy built-in definitions for Azure Automation
       url: "https://learn.microsoft.com/en-us/azure/automation/policy-reference"
-	  
-	  
+
 - description: Enable Basic Logs for High-Volume Data
   acorlGuid: 43f13045-f11f-4330-8bdd-5843aaac777e
   recommendationTypeId: null
@@ -108,7 +105,7 @@
   learnMoreLink:
     - name: Tables that support the Basic table plan in Azure Monitor Logs
       url: "https://learn.microsoft.com/en-us/azure/azure-monitor/logs/basic-logs-azure-tables"
-	  
+
 - description: Set Appropriate Retention Periods
   acorlGuid: 6908fe33-29b1-4c1c-a26c-d88fa16a03bb
   recommendationTypeId: null
@@ -126,8 +123,7 @@
   learnMoreLink:
     - name: Configure Data Retention
       url: "https://learn.microsoft.com/en-us/troubleshoot/azure/azure-monitor/log-analytics/billing/configure-data-retention"
-	  
-	  
+
 - description: Automate Data Purging
   acorlGuid: eda294d5-9358-4542-aecb-2387a092f04c
   recommendationTypeId: null
@@ -147,8 +143,7 @@
       url: "https://learn.microsoft.com/en-us/azure/azure-monitor/logs/data-retention-configure?tabs=portal-3%2Cportal-1%2Cportal-2"
     - name: Workspaces - Update
       url: "https://learn.microsoft.com/en-us/rest/api/loganalytics/workspaces/update?view=rest-loganalytics-2023-09-01&tabs=HTTP"
-	  
-	  
+
 - description: Move Older Logs to Azure Blob Storage
   acorlGuid: ec2d2a09-dbd8-40f9-9a23-ef86631b3a2b
   recommendationTypeId: null
@@ -165,81 +160,4 @@
   tags: null
   learnMoreLink:
     - name: Log Analytics workspace data export in Azure Monitor
-      url: "https://learn.microsoft.com/en-us/azure/azure-monitor/logs/logs-data-export?tabs=portal"
-	  
-
-	  
-- description: Use Table Transformations in Azure Log Analytics
-  acorlGuid: 20c3dc53-ba54-40fa-9b4e-5b093516532a
-  recommendationTypeId: null
-  recommendationControl: UsageOptimization/OptimizeResources
-  recommendationImpact: Low
-  recommendationResourceType: Microsoft.OperationalInsights/Workspaces
-  recommendationMetadataState: Active
-  remediationAction: |
-    Apply Kusto Query Language (KQL) transformations to filter out unnecessary fields and exclude irrelevant logs before they’re ingested, reducing data volume and costs.
-  potentialBenefits: Optimize cost
-  pgVerified: false
-  publishedToLearn: false
-  automationAvailable: false
-  tags: null
-  learnMoreLink:
-    - name: Transformations in Azure Monitor
-      url: "https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/data-collection-transformations"
-	  
-	  
-- description: Regularly Review Transformation Logic
-  acorlGuid: 68814efe-55c1-4caf-b1d2-b847b3cf01fc
-  recommendationTypeId: null
-  recommendationControl: UsageOptimization/OptimizeResources
-  recommendationImpact: Low
-  recommendationResourceType: Microsoft.OperationalInsights/Workspaces
-  recommendationMetadataState: Active
-  remediationAction: |
-    Continuously audit DCR transformations, KQL queries, and filtering rules to ensure you’re only keeping valuable data. Check Azure Monitor Usage Reports to find and refine any costly queries.
-  potentialBenefits: Optimize cost
-  pgVerified: false
-  publishedToLearn: false
-  automationAvailable: false
-  tags: null
-  learnMoreLink:
-    - name: Sample transformations in Azure Monitor
-      url: "https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/data-collection-transformations-samples"
-	  
-- description: Commit to a Pricing Tier
-  acorlGuid: 183e8e71-245f-4406-8a2a-44acecc16e96
-  recommendationTypeId: null
-  recommendationControl: UsageOptimization/OptimizeResources
-  recommendationImpact: Low
-  recommendationResourceType: Microsoft.OperationalInsights/Workspaces
-  recommendationMetadataState: Active
-  remediationAction: |
-    Use Azure Monitor Commitment Tiers (e.g., committing to 100GB/day ingestion) to lock in discounted rates and reduce costs compared to pay-as-you-go pricing.
-  potentialBenefits: Optimize cost
-  pgVerified: false
-  publishedToLearn: false
-  automationAvailable: false
-  tags: null
-  learnMoreLink:
-    - name: Azure Monitor Logs cost calculations and options
-      url: "https://learn.microsoft.com/en-us/azure/azure-monitor/logs/cost-logs"
-	  
-	  
-- description: Optimize Workspace Placement
-  acorlGuid: acaa3cb3-2f2b-465f-be72-8dbd3058613a
-  recommendationTypeId: null
-  recommendationControl: UsageOptimization/OptimizeResources
-  recommendationImpact: Low
-  recommendationResourceType: Microsoft.OperationalInsights/Workspaces
-  recommendationMetadataState: Active
-  remediationAction: |
-    Consolidate Log Analytics Workspaces where possible to minimize cross-region egress charges, but also consider whether a centralized vs. distributed setup makes more sense for your workload.
-  potentialBenefits: Optimize cost
-  pgVerified: false
-  publishedToLearn: false
-  automationAvailable: false
-  tags: null
-  learnMoreLink:
-    - name: Design a Log Analytics workspace architecture
-      url: "https://learn.microsoft.com/en-us/azure/azure-monitor/logs/workspace-design"
-	  
+      url: "https://learn.microsoft.com/en-us/azure/azure-monitor/logs/logs
