@@ -7,8 +7,7 @@
   recommendationResourceType: microsoft.storage/storageaccounts
   recommendationMetadataState: Active
   remediationAction: >
-    Select the appropriate Blob Storage tier (Hot, Cool, or
-    Archive) based on access frequency and cost.
+    Select the appropriate Blob Storage tier (Hot, Cool, or Archive) based on access frequency and cost.
   potentialBenefits: Lowest cost
   pgVerified: false
   publishedToLearn: false
@@ -25,8 +24,7 @@
   recommendationResourceType: microsoft.storage/storageaccounts
   recommendationMetadataState: Active
   remediationAction: >
-    Enable lifecycle management policies to automatically move
-    data to the appropriate storage tier.
+    Enable lifecycle management policies to automatically move data to the appropriate storage tier.
   potentialBenefits: Lowest cost
   pgVerified: false
   publishedToLearn: false
