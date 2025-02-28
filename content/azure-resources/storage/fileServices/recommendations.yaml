@@ -15,7 +15,7 @@
   learnMoreLink:
     - name: Understand and optimize Azure file share performance 
       url: "https://learn.microsoft.com/en-us/azure/storage/files/understand-performance"
-	  
+
 - description: If using premium shares, provision enough capacity and performance for your workload without incurring unnecessary costs
   acorlGuid: 9ec1f442-ca32-4cb2-aa8d-c11de74a323b
   recommendationTypeId: null
@@ -33,7 +33,7 @@
   learnMoreLink:
     - name: Architecture best practices for Azure Files
       url: "https://learn.microsoft.com/en-us/azure/well-architected/service-guides/azure-files#design-checklist-1"
-	  
+
 - description: Choose the most cost-effective access tier
   acorlGuid: f0cd22ef-af24-44cf-b81b-aec73a27295c
   recommendationTypeId: null
@@ -51,7 +51,7 @@
   learnMoreLink:
     - name: Understand Azure Files billing models
       url: "https://learn.microsoft.com/en-us/azure/storage/files/understanding-billing#differences-in-standard-tiers"
-	  
+
 - description: Set retention periods for the soft-delete feature
   acorlGuid: b92dc04e-8464-4352-aba6-205ff0240e2f
   recommendationTypeId: null
