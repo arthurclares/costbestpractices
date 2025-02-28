@@ -23,6 +23,7 @@ jobs:
 
       - name: Lint YAML in azure-resources folder
         run: |
-          yamllint --strict "content/azure-resources/**/*.y*ml"
+          yamllint --strict content/azure-resources
+        
         
 
