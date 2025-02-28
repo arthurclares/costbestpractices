@@ -55,7 +55,7 @@
   learnMoreLink:
     - name: Should I put an app in a new plan or an existing plan?
       url: "https://learn.microsoft.com/en-us/azure/app-service/overview-hosting-plans#should-i-put-an-app-in-a-new-plan-or-an-existing-plan"
-      
+
 - description: Implement efficient autoscaling
   acorlGuid: cc18a06a-82cb-40ae-b72a-56b923f5ddbc
   recommendationTypeId: null
