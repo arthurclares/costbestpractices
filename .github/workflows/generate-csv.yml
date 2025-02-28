@@ -1,0 +1,94 @@
+name: Generate CSV from YAML Files
+on:
+  push:
+    branches:
+      - Dev
+    paths:
+      - 'content/azure-resources/**/*.yaml'  # Only trigger when YAML files change
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  generate-csv:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Needed to push changes
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          ref: Dev
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+
+      - name: Install dependencies
+        run: |
+          pip install pyyaml pandas
+
+      - name: Generate CSV from YAML files
+        run: |
+          mkdir -p .github/scripts
+          cat > .github/scripts/generate_csv.py << 'EOF'
+          import os
+          import yaml
+          import pandas as pd
+          import glob
+
+          # Path to your YAML files
+          yaml_path = os.path.join('content', 'azure-resources', '**', '*.yaml')
+          yaml_files = glob.glob(yaml_path, recursive=True)
+
+          print(f"Found {len(yaml_files)} YAML files to process")
+
+          data = []
+
+          for file_path in yaml_files:
+              try:
+                  with open(file_path, 'r') as file:
+                      yaml_content = yaml.safe_load(file)
+                      
+                      # If the YAML is a list of objects
+                      if isinstance(yaml_content, list):
+                          for item in yaml_content:
+                              # Add source file information
+                              if isinstance(item, dict):
+                                  item['SourceFile'] = file_path
+                                  data.append(item)
+                      # If the YAML is a single object
+                      elif isinstance(yaml_content, dict):
+                          yaml_content['SourceFile'] = file_path
+                          data.append(yaml_content)
+              except Exception as e:
+                  print(f"Error processing {file_path}: {e}")
+
+          # Check if we found any data
+          if data:
+              # Convert to DataFrame
+              df = pd.DataFrame(data)
+              
+              # Save as CSV
+              output_path = 'content/recommendations.csv'
+              df.to_csv(output_path, index=False)
+              print(f"CSV file created at {output_path} with {len(data)} rows.")
+          else:
+              print("No data found in YAML files.")
+          EOF
+          python .github/scripts/generate_csv.py
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+      - name: Commit and push CSV
+        run: |
+          git add content/recommendations.csv
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Update recommendations.csv based on YAML changes"
+            git push origin Dev
+          fi
