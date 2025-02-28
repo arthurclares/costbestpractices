@@ -23,3 +23,4 @@ jobs:
         with:
           name: azure-resources-zip
           path: azure-resources.zip
+          overwrite: true
