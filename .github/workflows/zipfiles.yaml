@@ -1,13 +1,12 @@
-name: Zip on Approved PR
+name: Zip on Merged PR
 
 on:
-  pull_request_review:
-    types: [submitted]
+  pull_request:
+    types: [closed]
 
 jobs:
   zip-job:
-    # Only run if the review was approved and the PR targets 'target-branch'
-    if: ${{ github.event.review.state == 'approved' && github.event.pull_request.base.ref == 'dev' }}
+    if: ${{ github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'Dev' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -22,5 +21,5 @@ jobs:
       - name: Upload zipped artifact
         uses: actions/upload-artifact@v3
         with:
-          name: azure-resources
-          path: myfile.zip
+          name: azure-resources-zip
+          path: azure-resources.zip
