@@ -15,7 +15,6 @@
   learnMoreLink:
     - name: Reliability in Azure Backup
       url: "https://learn.microsoft.com/en-us/azure/reliability/reliability-backup"
-	  
 
 - description: Optimize replication settings 
   acorlGuid: 2966f57a-8add-446f-9c23-72154696049f
@@ -35,7 +34,6 @@
     - name: Cross Region Restore (CRR) for Azure Virtual Machines using Azure Backup
       url: "https://azure.microsoft.com/en-us/blog/cross-region-restore-crr-for-azure-virtual-machines-using-azure-backup/"
 
-	  
 - description: Reduce backup storage consumption
   acorlGuid: cfac9e44-f215-49db-b54e-4a6990adc868
   recommendationTypeId: null
@@ -53,7 +51,7 @@
   learnMoreLink:
     - name: Backup types
       url: "https://learn.microsoft.com/en-us/azure/backup/backup-architecture#backup-types"
-	  
+
 - description: Consider using Azure Policy built-in definitions for Azure Backup 
   acorlGuid: 36e19016-bc70-4e40-8ff6-a3988cbeedbb
   recommendationTypeId: null
@@ -71,10 +69,7 @@
   learnMoreLink:
     - name: Azure Policy built-in definitions for Azure Backup
       url: "https://learn.microsoft.com/en-us/azure/backup/policy-reference"
-	  
-	  
 
-	  
 - description: Define data retention policies
   acorlGuid: 16f95f56-bde4-4554-bd0c-bd7cec2f99be
   recommendationTypeId: null
@@ -83,7 +78,7 @@
   recommendationResourceType: Microsoft.RecoveryServices/vaults
   recommendationMetadataState: Active
   remediationAction: |
-    Set organization-wide retention policies based on compliance, business requirements, and industry regulations (e.g., GDPR, HIPAA). Use **Azure Backup policies** to automate enforcement.  
+    Set organization-wide retention policies based on compliance, business requirements, and industry regulations (e.g., GDPR, HIPAA). Use **Azure Backup policies** to automate enforcement. 
   potentialBenefits: Optimize cost
   pgVerified: false
   publishedToLearn: false
@@ -92,8 +87,7 @@
   learnMoreLink:
     - name: Backup Policy considerations
       url: "https://learn.microsoft.com/en-us/azure/backup/guidance-best-practices#backup-policy-considerations"
-	  
-	  
+
 - description: Enable Soft Delete for Protection
   acorlGuid: 071f881c-5f29-438d-84d3-01a94f8de903
   recommendationTypeId: null
@@ -112,7 +106,6 @@
     - name: Soft delete for Azure Backup
       url: "https://learn.microsoft.com/en-us/azure/backup/backup-azure-security-feature-cloud?tabs=azure-portal"
 
-
 - description: Consider Immutable vault for Azure Backup
   acorlGuid: b3cb065b-e498-4cd7-bae2-82cd73deec00
   recommendationTypeId: null
@@ -130,8 +123,7 @@
   learnMoreLink:
     - name: Immutable vault for Azure Backup
       url: "https://learn.microsoft.com/en-us/azure/backup/backup-azure-immutable-vault-concept?tabs=recovery-services-vault"
-	  
-	  
+
 - description: Adjust backup schedules based on workload
   acorlGuid: ed2fc61f-26b8-4ddc-881a-b749c9516ac1
   recommendationTypeId: null
@@ -150,7 +142,6 @@
     - name: Schedule considerations
       url: "https://learn.microsoft.com/en-us/azure/backup/guidance-best-practices#schedule-considerations"
 
-
 - description: Consider using differential and log backups
   acorlGuid: bc5ab84f-4914-42e4-a249-0666faec7a71
   recommendationTypeId: null
@@ -168,8 +159,7 @@
   learnMoreLink:
     - name: Transaction log backups (SQL Server)
       url: "https://learn.microsoft.com/en-us/sql/relational-databases/backup-restore/transaction-log-backups-sql-server?view=sql-server-ver16"
-	  
-	  
+
 - description: Distribute backup workloads
   acorlGuid: bea81a41-febd-4dd1-bb99-2fe98eb02246
   recommendationTypeId: null
@@ -178,54 +168,4 @@
   recommendationResourceType: Microsoft.RecoveryServices/vaults
   recommendationMetadataState: Active
   remediationAction: |
-    Use Azure Backup’s built-in scheduling tools to stagger backup times and avoid peak-hour costs. Set up Azure Automation Runbooks to automate and optimize backup execution.
-  potentialBenefits: Optimize cost
-  pgVerified: false
-  publishedToLearn: false
-  automationAvailable: false
-  tags: null
-  learnMoreLink:
-    - name: Automation in Azure Backup
-      url: "https://learn.microsoft.com/en-us/azure/backup/automation-backup"
-    - name: Schedule considerations
-      url: "https://learn.microsoft.com/en-us/azure/backup/guidance-best-practices#schedule-considerations"	  
-	  
-	  
-	  
-- description: Monitor and optimize backups
-  acorlGuid: f9a47cfb-c9cc-453e-8732-2d75af1a6f2e
-  recommendationTypeId: null
-  recommendationControl: UsageOptimization/OptimizeResources
-  recommendationImpact: Low
-  recommendationResourceType: Microsoft.RecoveryServices/vaults
-  recommendationMetadataState: Active
-  remediationAction: |
-    Enable Azure Monitor and Backup Reports to track backup job efficiency, identify failures, and adjust schedules dynamically to balance cost and performance.
-  potentialBenefits: Optimize cost
-  pgVerified: false
-  publishedToLearn: false
-  automationAvailable: false
-  tags: null
-  learnMoreLink:
-    - name: Configure Azure Backup reports
-      url: "https://learn.microsoft.com/en-us/azure/backup/configure-reports?tabs=recovery-services-vaults"
-
-
-- description: Consider replacing full VM snapshots with Azure Site Recovery (ASR)
-  acorlGuid: aafb154e-372a-4b19-af1a-cce042fedd1e
-  recommendationTypeId: null
-  recommendationControl: UsageOptimization/OptimizeResources
-  recommendationImpact: Low
-  recommendationResourceType: Microsoft.RecoveryServices/vaults
-  recommendationMetadataState: Active
-  remediationAction: |
-    If your goal is business continuity (BC) rather than long-term backup retention, ASR is more efficient. Instead of keeping multiple VM snapshots, enable ASR for business continuity, which replicates VMs efficiently while minimizing storage costs.
-  potentialBenefits: Optimize cost
-  pgVerified: false
-  publishedToLearn: false
-  automationAvailable: false
-  tags: null
-  learnMoreLink:
-    - name: Common questions: Azure-to-Azure disaster recovery
-      url: "https://learn.microsoft.com/en-us/azure/site-recovery/azure-to-azure-common-questions"
-	  
+    Use Azure Backup's built-in scheduling tools to stagger backup times and avoid peak-hour costs. Set up Azure Automation Runbooks to automate and optimize backup execution

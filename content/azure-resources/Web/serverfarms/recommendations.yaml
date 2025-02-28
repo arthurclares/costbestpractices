@@ -89,5 +89,5 @@
   automationAvailable: false
   tags: null
   learnMoreLink:
-    - name: Azure serverless overview: Create cloud-based apps and solutions with Azure Logic Apps and Azure Functions
+    - name: Azure serverless overview Create cloud-based apps and solutions with Azure Logic Apps and Azure Functions
       url: "https://learn.microsoft.com/en-us/azure/logic-apps/logic-apps-serverless-overview"
