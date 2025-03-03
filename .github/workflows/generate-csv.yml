@@ -16,7 +16,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
         with:
-          ref: Dev
+          ref: main
           fetch-depth: 0
 
       - name: Set up Python
