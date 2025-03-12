@@ -1,0 +1,271 @@
+name: Generate CSV from YAML and KQL Files
+on:
+  push:
+    branches:
+      - Dev
+    paths:
+      - 'content/azure-resources/**/*.yaml'
+      - 'content/azure-resources/**/*.kql'
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  generate-csv:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Needed to push changes
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+
+      - name: Install dependencies
+        run: |
+          pip install pyyaml pandas
+
+      - name: Generate CSV from YAML and KQL files
+        run: |
+          mkdir -p .github/scripts
+          cat > .github/scripts/generate_csv.py << 'EOF'
+          import os
+          import re
+          import yaml
+          import json
+          import pandas as pd
+          import glob
+
+          # Process YAML files
+          def process_yaml_files():
+              yaml_path = os.path.join('content', 'azure-resources', '**', '*.yaml')
+              yaml_files = glob.glob(yaml_path, recursive=True)
+              print(f"Found {len(yaml_files)} YAML files to process")
+              
+              data = []
+              for file_path in yaml_files:
+                  try:
+                      with open(file_path, 'r') as file:
+                          yaml_content = yaml.safe_load(file)
+                          
+                          # If the YAML is a list of objects
+                          if isinstance(yaml_content, list):
+                              for item in yaml_content:
+                                  if isinstance(item, dict):
+                                      # Add source information
+                                      item['SourceFile'] = file_path
+                                      item['SourceType'] = 'YAML'
+                                      item['recommendationSource'] = 'Manual'
+                                      
+                                      # Add placeholder for any missing required fields
+                                      # Map YAML fields to expected x_ fields if they don't exist
+                                      if 'x_RecommendationId' not in item and 'acorlGuid' in item:
+                                          item['x_RecommendationId'] = item['acorlGuid']
+                                      if 'x_RecommendationCategory' not in item:
+                                          item['x_RecommendationCategory'] = 'Cost'
+                                      if 'x_RecommendationProvider' not in item:
+                                          item['x_RecommendationProvider'] = 'Microsoft.FinOpsToolkit'
+                                      if 'x_RecommendationImpact' not in item and 'recommendationImpact' in item:
+                                          item['x_RecommendationImpact'] = item['recommendationImpact']
+                                      if 'x_RecommendationTypeId' not in item and 'recommendationTypeId' in item:
+                                          item['x_RecommendationTypeId'] = item['recommendationTypeId']
+                                      if 'x_RecommendationControl' not in item and 'recommendationControl' in item:
+                                          item['x_RecommendationControl'] = item['recommendationControl']
+                                      if 'x_RecommendationMaturityLevel' not in item:
+                                          item['x_RecommendationMaturityLevel'] = 'Preview'
+                                      if 'x_RecommendationDescription' not in item and 'description' in item:
+                                          item['x_RecommendationDescription'] = item['description']
+                                      if 'x_RecommendationSolution' not in item and 'remediationAction' in item:
+                                          item['x_RecommendationSolution'] = item['remediationAction']
+                                      if 'x_ResourceType' not in item and 'recommendationResourceType' in item:
+                                          item['x_ResourceType'] = item['recommendationResourceType']
+                                          
+                                      data.append(item)
+                          # If the YAML is a single object
+                          elif isinstance(yaml_content, dict):
+                              # Add source information
+                              yaml_content['SourceFile'] = file_path
+                              yaml_content['SourceType'] = 'YAML'
+                              yaml_content['recommendationSource'] = 'Manual'
+                              
+                              # Map YAML fields to expected x_ fields if they don't exist
+                              if 'x_RecommendationId' not in yaml_content and 'acorlGuid' in yaml_content:
+                                  yaml_content['x_RecommendationId'] = yaml_content['acorlGuid']
+                              if 'x_RecommendationCategory' not in yaml_content:
+                                  yaml_content['x_RecommendationCategory'] = 'Cost'
+                              if 'x_RecommendationProvider' not in yaml_content:
+                                  yaml_content['x_RecommendationProvider'] = 'Microsoft.FinOpsToolkit'
+                              if 'x_RecommendationImpact' not in yaml_content and 'recommendationImpact' in yaml_content:
+                                  yaml_content['x_RecommendationImpact'] = yaml_content['recommendationImpact']
+                              if 'x_RecommendationTypeId' not in yaml_content and 'recommendationTypeId' in yaml_content:
+                                  yaml_content['x_RecommendationTypeId'] = yaml_content['recommendationTypeId']
+                              if 'x_RecommendationControl' not in yaml_content and 'recommendationControl' in yaml_content:
+                                  yaml_content['x_RecommendationControl'] = yaml_content['recommendationControl']
+                              if 'x_RecommendationMaturityLevel' not in yaml_content:
+                                  yaml_content['x_RecommendationMaturityLevel'] = 'Preview'
+                              if 'x_RecommendationDescription' not in yaml_content and 'description' in yaml_content:
+                                  yaml_content['x_RecommendationDescription'] = yaml_content['description']
+                              if 'x_RecommendationSolution' not in yaml_content and 'remediationAction' in yaml_content:
+                                  yaml_content['x_RecommendationSolution'] = yaml_content['remediationAction']
+                              if 'x_ResourceType' not in yaml_content and 'recommendationResourceType' in yaml_content:
+                                  yaml_content['x_ResourceType'] = yaml_content['recommendationResourceType']
+                                  
+                              data.append(yaml_content)
+                  except Exception as e:
+                      print(f"Error processing YAML file {file_path}: {e}")
+              
+              return data
+
+          # Process KQL files - specifically for Azure Resource Graph queries
+          def process_kql_files():
+              kql_path = os.path.join('content', 'azure-resources', '**', '*.kql')
+              kql_files = glob.glob(kql_path, recursive=True)
+              print(f"Found {len(kql_files)} KQL files to process")
+              
+              data = []
+              for file_path in kql_files:
+                  try:
+                      with open(file_path, 'r') as file:
+                          kql_content = file.read()
+                          
+                          # Create base metadata from file path
+                          metadata = {
+                              'SourceFile': file_path,
+                              'SourceType': 'KQL',
+                              'recommendationSource': 'Automated'
+                          }
+                          
+                          # Extract folder structure metadata
+                          parts = file_path.split(os.sep)
+                          if 'azure-resources' in parts and parts.index('azure-resources') + 1 < len(parts):
+                              idx = parts.index('azure-resources') + 1
+                              if idx < len(parts) - 1:
+                                  resource_category = parts[idx]
+                                  metadata['ResourceCategory'] = resource_category
+                          
+                          # Extract x_ prefixed fields from projection
+                          # Look specifically for the required fields
+                          required_fields = [
+                              'x_RecommendationId', 
+                              'x_RecommendationCategory',
+                              'x_RecommendationProvider',
+                              'x_RecommendationImpact',
+                              'x_RecommendationTypeId',
+                              'x_RecommendationControl',
+                              'x_RecommendationMaturityLevel',
+                              'x_RecommendationDescription',
+                              'x_RecommendationSolution',
+                              'x_ResourceType'
+                          ]
+                          
+                          # Match all x_ fields in the project clause
+                          x_fields = re.findall(r'x_(\w+)\s*=\s*([^,\n]+)', kql_content)
+                          for field, value in x_fields:
+                              field_name = f"x_{field}"
+                              # Clean up the value - remove quotes and trim
+                              clean_value = value.strip().strip("'").strip('"')
+                              
+                              # Store the field
+                              metadata[field_name] = clean_value
+                          
+                          # Fill in missing required fields with defaults
+                          for field in required_fields:
+                              if field not in metadata:
+                                  if field == 'x_RecommendationCategory':
+                                      metadata[field] = 'Cost'
+                                  elif field == 'x_RecommendationProvider':
+                                      metadata[field] = 'Microsoft.FinOpsToolkit'
+                                  elif field == 'x_RecommendationMaturityLevel':
+                                      metadata[field] = 'Preview'
+                                  elif field == 'x_RecommendationDescription':
+                                      # Use filename as description if missing
+                                      file_name = os.path.basename(file_path)
+                                      metadata[field] = file_name.replace('.kql', '').replace('_', ' ').title()
+                                  elif field == 'x_RecommendationId':
+                                      # Generate an ID based on filename
+                                      file_name = os.path.basename(file_path)
+                                      metadata[field] = file_name.replace('.kql', '').lower()
+                          
+                          data.append(metadata)
+                  except Exception as e:
+                      print(f"Error processing KQL file {file_path}: {e}")
+              
+              return data
+
+          # Main process
+          yaml_data = process_yaml_files()
+          kql_data = process_kql_files()
+          
+          # Combine data
+          all_data = yaml_data + kql_data
+          
+          # Check if we found any data
+          if all_data:
+              # Ensure consistent columns by getting all unique keys
+              all_keys = set()
+              for item in all_data:
+                  all_keys.update(item.keys())
+              
+              # Fill missing values with None
+              for item in all_data:
+                  for key in all_keys:
+                      if key not in item:
+                          item[key] = None
+              
+              # Convert to DataFrame
+              df = pd.DataFrame(all_data)
+              
+              # Ensure key columns are at the beginning of the CSV
+              priority_columns = [
+                  'x_RecommendationDescription',
+                  'x_RecommendationSolution',
+                  'x_RecommendationImpact',
+                  'x_RecommendationCategory',
+                  'x_RecommendationProvider',
+                  'x_RecommendationTypeId',
+                  'x_RecommendationControl',
+                  'x_RecommendationMaturityLevel',
+                  'x_ResourceType',
+                  'x_RecommendationId',
+                  'recommendationSource',
+                  'SourceFile'
+              ]
+              
+              # Reorder columns with priority columns first
+              all_columns = list(df.columns)
+              for col in reversed(priority_columns):
+                  if col in all_columns:
+                      all_columns.remove(col)
+                      all_columns.insert(0, col)
+              
+              df = df[all_columns]
+              
+              # Save as CSV
+              output_path = 'content/recommendations.csv'
+              df.to_csv(output_path, index=False)
+              print(f"CSV file created at {output_path} with {len(all_data)} rows.")
+              print(f"- {len(yaml_data)} from YAML files (Manual)")
+              print(f"- {len(kql_data)} from KQL files (Automated)")
+          else:
+              print("No data found in YAML or KQL files.")
+          EOF
+          python .github/scripts/generate_csv.py
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+      - name: Commit and push CSV
+        run: |
+          git add content/recommendations.csv
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Update recommendations.csv from YAML and KQL files"
+            git push origin Dev
+          fi
