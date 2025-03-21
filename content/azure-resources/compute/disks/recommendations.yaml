@@ -3,7 +3,7 @@
   recommendationTypeId: null
   recommendationControl: UsageOptimization/OptimizeResources
   recommendationImpact: Low
-  recommendationResourceType: null
+  recommendationResourceType: Microsoft.Compute/disks
   recommendationMetadataState: Active
   remediationAction: |
     Before deploying your environment, understand the available disk types and their features. Use the Azure Pricing Calculator to estimate costs. For instance, Azure Premium SSD v2 allows you to fine-tune performance independently of disk size, helping optimize both cost and efficiency.
@@ -21,7 +21,7 @@
   recommendationTypeId: null
   recommendationControl: UsageOptimization/OptimizeResources
   recommendationImpact: Low
-  recommendationResourceType: null
+  recommendationResourceType: Microsoft.Compute/disks
   recommendationMetadataState: Active
   remediationAction: |
     Prepaying for reserved capacity can significantly reduce the total cost of your environment by offering discounts on Premium SSD storage.
@@ -39,7 +39,7 @@
   recommendationTypeId: null
   recommendationControl: UsageOptimization/OptimizeResources
   recommendationImpact: Low
-  recommendationResourceType: null
+  recommendationResourceType: Microsoft.Compute/disks
   recommendationMetadataState: Active
   remediationAction: |
     These disk types allow performance adjustments a limited number of times within a 24-hour period. By scaling performance up during high demand (increasing cost) and down when demand decreases (reducing cost), you can optimize both performance and spending.
@@ -59,7 +59,7 @@
   recommendationTypeId: null
   recommendationControl: UsageOptimization/OptimizeResources
   recommendationImpact: Low
-  recommendationResourceType: null
+  recommendationResourceType: Microsoft.Compute/disks
   recommendationMetadataState: Active
   remediationAction: |
     Managed Disks cannot be shrunk, but they can be expanded if needed. To downsize, you need to create a new smaller disk and migrate data.
@@ -77,7 +77,7 @@
   recommendationTypeId: null
   recommendationControl: UsageOptimization/OptimizeResources
   recommendationImpact: Low
-  recommendationResourceType: null
+  recommendationResourceType: Microsoft.Compute/disks
   recommendationMetadataState: Active
   remediationAction: |
     Ephemeral OS Disks offer temporary storage at no cost, ideal for auto-scaling environments (e.g., VM Scale Sets), dev/test workloads and stateless applications.
