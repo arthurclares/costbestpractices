@@ -71,7 +71,7 @@
   recommendationTypeId: null
   recommendationControl: RateOptimization/OptimizingUsage
   recommendationImpact: High
-  recommendationResourceType: Microsoft/CustomCost
+  recommendationResourceType: Microsoft.CustomCost
   recommendationMetadataState: Active
   remediationAction: |
     Monitor RI utilization to ensure commitments are fully used. Adjust reservations if usage patterns change significantly. Leverage reservation utilization alerts
@@ -88,11 +88,11 @@
   recommendationTypeId: null
   recommendationControl: Governance/BudgetCostControl
   recommendationImpact: Low
-  recommendationResourceType: Microsoft/CustomCost
+  recommendationResourceType: Microsoft.CustomCost
   recommendationMetadataState: Active
   remediationAction: |
     Use Azure Cost Management + Billing to set budgets at subscription, resource group, or resource levels and set up alerts to notify stakeholders when usage approaches budget limits.
-  potentialBenefits: ""
+  potentialBenefits: Budget Control
   pgVerified: false
   publishedToLearn: false
   automationAvailable: false
@@ -105,11 +105,11 @@
   recommendationTypeId: null
   recommendationControl: UsageOptimization/OptimizeResources
   recommendationImpact: Low
-  recommendationResourceType: Microsoft/CustomCost
+  recommendationResourceType: Microsoft.CustomCost
   recommendationMetadataState: Active
   remediationAction: |
     Schedule non-critical VMs or services to shut down after hours or during low-use periods. Use Azure Automation or Azure Logic Apps to automatically manage resource shutdowns.
-  potentialBenefits: ""
+  potentialBenefits: Cost optimization
   pgVerified: false
   publishedToLearn: false
   automationAvailable: false
@@ -122,11 +122,11 @@
   recommendationTypeId: null
   recommendationControl: UsageOptimization/OptimizeResources
   recommendationImpact: Low
-  recommendationResourceType: Microsoft/CustomCost
+  recommendationResourceType: Microsoft.CustomCost
   recommendationMetadataState: Active
   remediationAction: |
     Use Azure DevTest Labs to automate the provisioning and de-provisioning of resources for development environments, reducing idle time and costs in non-production environments.
-  potentialBenefits: ""
+  potentialBenefits: Cost optimization
   pgVerified: false
   publishedToLearn: false
   automationAvailable: false
@@ -139,11 +139,11 @@
   recommendationTypeId: null
   recommendationControl: FinOps/CostVisibility
   recommendationImpact: Low
-  recommendationResourceType: Microsoft/CustomCost
+  recommendationResourceType: Microsoft.CustomCost
   recommendationMetadataState: Active
   remediationAction: |
     Create a cross-functional FinOps team involving finance, engineering, and management to continuously review and optimize costs, ensure accountability, and enforce cost-saving practices.
-  potentialBenefits: Microsoft/CustomCost
+  potentialBenefits: Cost optimization, Organizational Alignment 
   pgVerified: false
   publishedToLearn: false
   automationAvailable: false
@@ -156,11 +156,11 @@
   recommendationTypeId: null
   recommendationControl: CostManagement/CostMonitoring
   recommendationImpact: Low
-  recommendationResourceType: Microsoft/CustomCost
+  recommendationResourceType: Microsoft.CustomCost
   recommendationMetadataState: Active
   remediationAction: |
     Use Azure Cost Management + Billing to generate and review cost reports. Look for anomalies, unused resources, and opportunities to optimize.
-  potentialBenefits: Microsoft/CustomCost
+  potentialBenefits: Cost Monitoring
   pgVerified: false
   publishedToLearn: false
   automationAvailable: false
