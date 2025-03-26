@@ -2,7 +2,7 @@
   acorlGuid: a79bed0c-6246-4471-a857-7c255a47f8e9
   recommendationTypeId: null
   recommendationControl: UsageOptimization/OptimizeResources
-  recommendationImpact: Low
+  recommendationImpact: Medium
   recommendationResourceType: Microsoft.Compute/disks
   recommendationMetadataState: Active
   remediationAction: |
@@ -20,7 +20,7 @@
   acorlGuid: 387b3213-e220-4565-bde1-75a80745d063
   recommendationTypeId: null
   recommendationControl: UsageOptimization/OptimizeResources
-  recommendationImpact: Low
+  recommendationImpact: Medium
   recommendationResourceType: Microsoft.Compute/disks
   recommendationMetadataState: Active
   remediationAction: |
@@ -38,7 +38,7 @@
   acorlGuid: 4e8c6760-c2bd-45b8-a522-29f7f13bc9b7
   recommendationTypeId: null
   recommendationControl: UsageOptimization/OptimizeResources
-  recommendationImpact: Low
+  recommendationImpact: Medium
   recommendationResourceType: Microsoft.Compute/disks
   recommendationMetadataState: Active
   remediationAction: |
@@ -58,7 +58,7 @@
   acorlGuid: 79d1aa80-e802-4ddc-a583-d6b298305147
   recommendationTypeId: null
   recommendationControl: UsageOptimization/OptimizeResources
-  recommendationImpact: Low
+  recommendationImpact: Medium
   recommendationResourceType: Microsoft.Compute/disks
   recommendationMetadataState: Active
   remediationAction: |
@@ -76,7 +76,7 @@
   acorlGuid: 8d6297cc-569e-4d36-8dcb-4813fa8bf899
   recommendationTypeId: null
   recommendationControl: UsageOptimization/OptimizeResources
-  recommendationImpact: Low
+  recommendationImpact: Medium
   recommendationResourceType: Microsoft.Compute/disks
   recommendationMetadataState: Active
   remediationAction: |
