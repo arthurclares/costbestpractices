@@ -1,70 +1,106 @@
 # Azure Cost Optimization Recommendations Script
 
-This PowerShell script automates the process of generating cost optimization recommendations for Azure resources using Azure Resource Graph queries and manual validations. It is designed to help users identify potential cost savings and improve the efficiency of their Azure environment.
+This PowerShell script automates the generation of cost optimization recommendations for Azure resources, combining Azure Resource Graph queries with manual validations. It aims to streamline the process of identifying potential cost savings and enhancing the efficiency of your Azure environment.
 
 ---
 
-## **Features**
-- **Automated KQL Queries**: Executes pre-defined KQL (Kusto Query Language) queries to identify cost optimization opportunities.
-- **Manual Validations**: Processes YAML files to include manual checks for specific resource types.
-- **Well-Architected Framework Integration**: Optionally includes results from a Well-Architected Cost Optimization assessment.
-- **Excel Export**: Exports the results to an Excel file with separate sheets for recommendations, manual checks, and assessment data.
-- **Customizable Scope**: Allows users to specify the scope (entire environment, specific subscriptions, or resource groups).
+## **Key Features**
+
+* **Automated KQL Queries:** Executes predefined Kusto Query Language (KQL) queries to pinpoint cost optimization opportunities within your Azure resources.
+* **Manual Validations via YAML:** Integrates manual validation checks for specific resource types by processing YAML configuration files, allowing for nuanced assessments.
+* **Well-Architected Framework Integration (Optional):** Incorporates results from a Well-Architected Cost Optimization assessment, if provided, for a holistic view.
+* **Comprehensive Excel Export:** Exports all findings into a structured Excel file, with distinct sheets for automated recommendations, manual validations, and Well-Architected assessment data.
+* **Flexible Scope Selection:** Supports a wide range of scopes, from your entire Azure environment to specific subscriptions or resource groups.
 
 ---
 
-## **How It Works**
-1. **Initialization**:
-   - The script checks the PowerShell version and installs required modules (`Az.Accounts`, `Az.ResourceGraph`, `ImportExcel`, `powershell-yaml`).
-   - It authenticates to Azure using `Connect-AzAccount`.
+## **Workflow Overview**
 
-2. **Scope Selection**:
-   - The user is prompted to select a scope (entire environment, specific subscriptions, or resource groups).
+1.  **Initialization:**
+    * The script verifies the PowerShell version and installs necessary modules: `Az.Accounts`, `Az.ResourceGraph`, `ImportExcel`, and `powershell-yaml`.
+    * It establishes an Azure connection using `Connect-AzAccount`.
 
-3. **KQL Query Execution**:
-   - The script processes KQL files in parallel to query Azure Resource Graph and retrieve cost optimization recommendations.
+2.  **Scope Definition:**
+    * You'll be prompted to define the scope of the analysis: the entire Azure environment, specific subscriptions, or targeted resource groups.
 
-4. **Manual Validations**:
-   - The script processes YAML files to include manual checks for specific resource types.
+3.  **Automated KQL Query Execution:**
+    * The script concurrently executes KQL queries defined in separate files to retrieve cost optimization recommendations from Azure Resource Graph.
 
-5. **Well-Architected Assessment**:
-   - The user can optionally include results from a Well-Architected Cost Optimization assessment by providing a CSV file.
+4.  **Manual Validation Processing:**
+    * YAML configuration files are processed to incorporate manual validation checks for designated resource types.
 
-6. **Excel Export**:
-   - The script exports the results to an Excel file with the following sheets:
-     - **Recommendations**: Results from KQL queries.
-     - **Manual Recommendations**: Results from manual validations.
-     - **Well-Architected Assessment**: Results from the Well-Architected Cost Optimization assessment (if provided).
+5.  **Well-Architected Assessment Integration (Optional):**
+    * If you provide a CSV file containing Well-Architected Cost Optimization assessment results, these are included in the final report.
 
----
-
-## **Prerequisites**
-- **PowerShell 7+**: The script requires PowerShell 7 or later.
-- **Azure Modules**: The following PowerShell modules must be installed:
-  - `Az.Accounts`
-  - `Az.ResourceGraph`
-  - `ImportExcel`
-  - `powershell-yaml`
-- **Azure Permissions**: The user must have sufficient permissions to query Azure Resource Graph and access the specified resources.
+6.  **Excel Report Generation:**
+    * The script generates an Excel file containing:
+        * **Recommendations:** Results from the automated KQL queries.
+        * **Manual Recommendations:** Results from the manual validation processes.
+        * **Well-Architected Assessment:** Results from the supplied assessment (if applicable).
 
 ---
 
-## **Usage**
-1. **Download the latest version of the script**
-```POWERSHELL
-invoke-webrequest https://aka.ms/acorl/tools/costcollector -out collectCostRecommendations.ps1
-```
+## **System Requirements**
 
-2. **Run the Script:**
-```POWERSHELL
-.\costrecommendations.ps1
-```
+* **PowerShell 7+:** Ensure you have PowerShell version 7 or later installed.
+* **Azure PowerShell Modules:** The following modules are required:
+    * `Az.Accounts`
+    * `Az.ResourceGraph`
+    * `ImportExcel`
+    * `powershell-yaml`
+* **Azure Permissions:** Your Azure account must have sufficient permissions to query Azure Resource Graph and access the resources within the defined scope.
 
-3. **Follow the Prompts:**
-- Select the scope (entire environment, specific subscriptions, or resource groups).
-- Choose whether to include a Well-Architected Cost Optimization assessment.
-- Choose whether to run manual checks.
+---
 
-4. **Review the Results:**
-- The script generates an Excel file (ACORL-File-<timestamp>.xlsx) in the script's directory.
-- Open the Excel file to view the recommendations and manual checks.
+## **Collecting Cost Recommendations**
+
+### **Usage**
+
+1.  **Download the Script:**
+    ```powershell
+    Invoke-WebRequest -Uri [https://aka.ms/acorl/tools/costcollector](https://aka.ms/acorl/tools/costcollector) -OutFile collectCostRecommendations.ps1
+    ```
+
+2.  **Execute the Script:**
+    ```powershell
+    .\collectCostRecommendations.ps1
+    ```
+
+3.  **Follow the Interactive Prompts:**
+    * Select the desired scope (environment, subscriptions, or resource groups).
+    * Choose whether to include a Well-Architected Cost Optimization assessment.
+    * Choose whether to run manual checks.
+
+4.  **Review the Output:**
+    * The script will generate an Excel file named `ACORL-File-<timestamp>.xlsx` in the script's directory.
+    * Open this Excel file to review the cost optimization recommendations and manual validation results.
+
+## **Generating a PowerPoint Presentation**
+
+* `generateCostPPT.ps1`: This script transforms the Excel output from `collectCostRecommendations.ps1` into a PowerPoint presentation, designed for presentation in close-out meetings.
+
+### **Usage**
+
+* **`-InputPath` (Mandatory):** The full path to the Excel file generated by `collectCostRecommendations.ps1`.
+* **`-PowerPointPath` (Mandatory):** The path to the PowerPoint presentation template that will be populated with the data.
+* **`-OutputPath` (Optional):** The desired path for the generated PowerPoint presentation. If omitted, a timestamped file will be created in the same directory as the input PowerPoint file.
+
+1.  **Download the Script:**
+    ```powershell
+    Invoke-WebRequest -Uri [https://aka.ms/acorl/tools/generatecostppt](https://aka.ms/acorl/tools/generatecostppt) -OutFile generateCostPPT.ps1
+    ```
+
+2.  **Execute the Script:**
+    ```powershell
+    .\generateCostPPT.ps1 -InputPath "C:\Path\To\Your\Recommendations.xlsx" -PowerPointPath "C:\Path\To\Your\Presentation.pptx" -OutputPath "C:\Path\To\Your\UpdatedPresentation.pptx"
+    ```
+
+    * Replace `"C:\Path\To\Your\Recommendations.xlsx"` with the actual path to your Excel file.
+    * Replace `"C:\Path\To\Your\Presentation.pptx"` with the path to your PowerPoint template.
+    * Replace `"C:\Path\To\Your\UpdatedPresentation.pptx"` with the desired output path (optional).
+
+    **Example (without specifying OutputPath):**
+
+    ```powershell
+    .\generateCostPPT.ps1 -InputPath "C:\Data\AzureRecommendations.xlsx" -PowerPointPath "C:\Presentations\OriginalPresentation.pptx"
+    ```
