@@ -1,0 +1,38 @@
+name: Zip azure-resources Weekly
+
+on:
+  schedule:
+    - cron: '0 0 * * 1' # Runs every Monday at midnight UTC
+
+jobs:
+  zip-and-commit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required to commit/push changes
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          ref: Dev  # Explicitly checkout the Dev branch
+          fetch-depth: 0  # Fetch all history for proper pushing
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+      - name: Zip the azure-resources folder
+        run: |
+          zip -r azure-resources.zip content/azure-resources
+          # Move the zip into content folder, overwriting old if present
+          mv azure-resources.zip content/azure-resources.zip
+
+      - name: Commit and push changes
+        run: |
+          git add content/azure-resources.zip
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Weekly update of azure-resources.zip"
+            git push origin Dev
+          fi
