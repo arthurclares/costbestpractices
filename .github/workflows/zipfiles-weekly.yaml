@@ -1,15 +1,11 @@
-name: Zip on Approved and Merged PR to Dev
+name: Zip azure-resources Weekly
 
 on:
-  pull_request:
-    types: [closed]
-    branches:
-      - Dev  # Specifically targeting the Dev branch
+  schedule:
+    - cron: '0 0 * * 1' # Runs every Monday at midnight UTC
 
 jobs:
   zip-and-commit:
-    # Only run if the PR was merged AND approved
-    if: github.event.pull_request.merged == true && github.event.pull_request.merged_by != null
     runs-on: ubuntu-latest
     permissions:
       contents: write  # Required to commit/push changes
@@ -37,6 +33,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
-            git commit -m "Update azure-resources.zip in Dev following PR #${{ github.event.pull_request.number }}"
+            git commit -m "Weekly update of azure-resources.zip"
             git push origin Dev
           fi
