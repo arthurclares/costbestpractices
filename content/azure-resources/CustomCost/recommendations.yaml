@@ -19,7 +19,7 @@
   acorlGuid: 106065c1-b217-4fc5-bae0-1fe6035bdc86
   recommendationTypeId: null
   recommendationControl: Governance/Compliance
-  recommendationImpact: Low
+  recommendationImpact: Medium
   recommendationResourceType: Microsoft.management/managementgroups
   recommendationMetadataState: Active
   remediationAction: |
@@ -36,7 +36,7 @@
   acorlGuid: 480d3a1a-4b76-4d58-a455-186e6b4c6e0d
   recommendationTypeId: null
   recommendationControl: Governance/ResourceManagement
-  recommendationImpact: Low
+  recommendationImpact: Medium
   recommendationResourceType: Microsoft.PolicyInsights
   recommendationMetadataState: Active
   remediationAction: |
@@ -53,7 +53,7 @@
   acorlGuid: 4241cf7d-7051-4774-9fa1-85b1976a0677
   recommendationTypeId: null
   recommendationControl: CostManagement/CostAllocation
-  recommendationImpact: Low
+  recommendationImpact: Medium
   recommendationResourceType: Microsoft.PolicyInsights
   recommendationMetadataState: Active
   remediationAction: |
@@ -71,7 +71,7 @@
   recommendationTypeId: null
   recommendationControl: RateOptimization/OptimizingUsage
   recommendationImpact: High
-  recommendationResourceType: Microsoft/CustomCost
+  recommendationResourceType: Microsoft.CustomCost
   recommendationMetadataState: Active
   remediationAction: |
     Monitor RI utilization to ensure commitments are fully used. Adjust reservations if usage patterns change significantly. Leverage reservation utilization alerts
@@ -87,12 +87,12 @@
   acorlGuid: c0e099e7-b4fa-4eeb-8d2d-1ba2ace8a628
   recommendationTypeId: null
   recommendationControl: Governance/BudgetCostControl
-  recommendationImpact: Low
-  recommendationResourceType: Microsoft/CustomCost
+  recommendationImpact: Medium
+  recommendationResourceType: Microsoft.CustomCost
   recommendationMetadataState: Active
   remediationAction: |
     Use Azure Cost Management + Billing to set budgets at subscription, resource group, or resource levels and set up alerts to notify stakeholders when usage approaches budget limits.
-  potentialBenefits: ""
+  potentialBenefits: Budget Control
   pgVerified: false
   publishedToLearn: false
   automationAvailable: false
@@ -104,12 +104,12 @@
   acorlGuid: 039f835e-ce7a-495a-bea6-67bffb7a03ae
   recommendationTypeId: null
   recommendationControl: UsageOptimization/OptimizeResources
-  recommendationImpact: Low
-  recommendationResourceType: Microsoft/CustomCost
+  recommendationImpact: Medium
+  recommendationResourceType: Microsoft.CustomCost
   recommendationMetadataState: Active
   remediationAction: |
     Schedule non-critical VMs or services to shut down after hours or during low-use periods. Use Azure Automation or Azure Logic Apps to automatically manage resource shutdowns.
-  potentialBenefits: ""
+  potentialBenefits: Cost optimization
   pgVerified: false
   publishedToLearn: false
   automationAvailable: false
@@ -122,11 +122,11 @@
   recommendationTypeId: null
   recommendationControl: UsageOptimization/OptimizeResources
   recommendationImpact: Low
-  recommendationResourceType: Microsoft/CustomCost
+  recommendationResourceType: Microsoft.CustomCost
   recommendationMetadataState: Active
   remediationAction: |
     Use Azure DevTest Labs to automate the provisioning and de-provisioning of resources for development environments, reducing idle time and costs in non-production environments.
-  potentialBenefits: ""
+  potentialBenefits: Cost optimization
   pgVerified: false
   publishedToLearn: false
   automationAvailable: false
@@ -139,11 +139,11 @@
   recommendationTypeId: null
   recommendationControl: FinOps/CostVisibility
   recommendationImpact: Low
-  recommendationResourceType: Microsoft/CustomCost
+  recommendationResourceType: Microsoft.CustomCost
   recommendationMetadataState: Active
   remediationAction: |
     Create a cross-functional FinOps team involving finance, engineering, and management to continuously review and optimize costs, ensure accountability, and enforce cost-saving practices.
-  potentialBenefits: Microsoft/CustomCost
+  potentialBenefits: Cost optimization, Organizational Alignment 
   pgVerified: false
   publishedToLearn: false
   automationAvailable: false
@@ -155,12 +155,12 @@
   acorlGuid: 93ed1fd5-8ab4-4afd-8315-aab0093db580
   recommendationTypeId: null
   recommendationControl: CostManagement/CostMonitoring
-  recommendationImpact: Low
-  recommendationResourceType: Microsoft/CustomCost
+  recommendationImpact: Medium
+  recommendationResourceType: Microsoft.CustomCost
   recommendationMetadataState: Active
   remediationAction: |
     Use Azure Cost Management + Billing to generate and review cost reports. Look for anomalies, unused resources, and opportunities to optimize.
-  potentialBenefits: Microsoft/CustomCost
+  potentialBenefits: Cost Monitoring
   pgVerified: false
   publishedToLearn: false
   automationAvailable: false
