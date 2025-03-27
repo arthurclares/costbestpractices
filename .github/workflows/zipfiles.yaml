@@ -1,4 +1,5 @@
-name: Zip on Merged PR to Dev
+name: Zip on Approved and Merged PR to Dev
+
 on:
   pull_request:
     types: [closed]
@@ -7,11 +8,11 @@ on:
 
 jobs:
   zip-and-commit:
-    # Only run if the PR was merged (not just closed)
-    if: github.event.pull_request.merged == true
+    # Only run if the PR was merged AND approved
+    if: github.event.pull_request.merged == true && github.event.pull_request.merged_by != null
     runs-on: ubuntu-latest
     permissions:
-      contents: write   # Required to commit/push changes
+      contents: write  # Required to commit/push changes
     steps:
       - name: Check out code
         uses: actions/checkout@v3
