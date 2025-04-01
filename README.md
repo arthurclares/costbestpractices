@@ -87,7 +87,7 @@ This PowerShell script automates the generation of cost optimization recommendat
 
 1.  **Download the Script:**
     ```powershell
-    Invoke-WebRequest -Uri [https://aka.ms/acorl/tools/generatecostppt](https://aka.ms/acorl/tools/generatecostppt) -OutFile generateCostPPT.ps1
+    Invoke-WebRequest -Uri https://aka.ms/acorl/tools/generatecostppt -OutFile generateCostPPT.ps1
     ```
 
 2.  **Execute the Script:**
