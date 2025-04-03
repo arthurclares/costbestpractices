@@ -112,8 +112,13 @@ try {
         $StandardizedManualRecs += $standardizedRec
     }
     
-    # Combine recommendations from both sources
-    $AllRecommendations = $AutomaticRecommendations + $StandardizedManualRecs
+    # Combine recommendations from both sources - comment and modified version below
+    #$AllRecommendations = $AutomaticRecommendations + $StandardizedManualRecs
+	$AutomaticRecommendations = @($AutomaticRecommendations)
+	$StandardizedManualRecs = @($StandardizedManualRecs)
+	$AllRecommendations = $AutomaticRecommendations + $StandardizedManualRecs
+	
+	
     Write-Progress-Message "Combined total: $($AllRecommendations.Count) recommendations."
     
     # Group recommendations by impact level
